@@ -1,0 +1,12 @@
+{
+	"name": "Battleship",
+	"description": "A game of battleship with the help of sockets",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"express": "3.x",
+		"connect": "2.x",
+		"jade": "0.x",
+		"nodemon": "0.x"
+	}
+}
