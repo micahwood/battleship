@@ -87,12 +87,11 @@ server.listen(port);
 /////// ADD ALL YOUR ROUTES HERE  /////////
 
 app.get('/', function(req, res){ 
-  res.render('index.jade', {
-    locals: { 
-              title : 'Battleship :: Home',
-              description: 'This page is about Battleship and how it rocks.'
-            }
-  });
+  var locals = {
+    title : 'Battleship :: Home',
+    description: 'This page is about Battleship and how it rocks.'
+  }
+  res.render('index.jade', locals);
 });
 
 // Errors - need to test these and also add a case for 404
@@ -101,4 +100,5 @@ app.use(function(err, req, res, next) {
   res.send(500, 'Something broke!');
 });
 
+// @TODO Figure out how to use your IP...
 console.log('Listening on http://0.0.0.0:' + port );
