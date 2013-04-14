@@ -1,3 +1,31 @@
 extends layout
 
-h1 BAttleship
+
+block content
+	#content
+		p 
+			a(href="#")#register Register
+			|  or 
+			a(href="#")#login Login
+
+		form#login-form
+			input(type="text"
+				  id="username"
+				  value="")
+			input(type="text"
+				  id="password"
+				  value="No Password Necessary")
+
+		form
+			input(type="text"
+				  id="username"
+				  value="")
+			input(type="text"
+				  id="email"
+				  value="")
+			input(type="text"
+				  id="password"
+				  value="")
+			input(type="text"
+				  id="confirm-password"
+				  value="")

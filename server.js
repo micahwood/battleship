@@ -76,7 +76,6 @@ io.sockets.on('connection', function(socket){
   });
 });
 
-// Listen...
 server.listen(port);
 
 
@@ -91,7 +90,17 @@ app.get('/', function(req, res){
     title : 'Battleship :: Home',
     description: 'This page is about Battleship and how it rocks.'
   }
+
   res.render('index.jade', locals);
+});
+
+app.get('/game', function(req, res){ 
+  var locals = {
+    title : 'Battleship :: Game',
+    description: 'This page has a real Battleship game.'
+  }
+  
+  res.render('game.jade', locals);
 });
 
 // Errors - need to test these and also add a case for 404

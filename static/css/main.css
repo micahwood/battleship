@@ -1,0 +1,38 @@
+body {
+	font-family: Helvetica, Arial, Sans-Serif;
+	background-color: #333333;
+	color: #FFFFFF;
+	font-size: 16px;
+}
+
+p {
+	font-weight: lighter;
+}
+
+a {
+	text-decoration: none;
+	color: #ead620;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.wrapper {
+
+}
+
+header h1 {
+	font-size: 54px;
+	margin: 0;
+}
+
+.sub-heading {
+	font-size: 20px;
+	letter-spacing: 1px;
+	font-weight: lighter;
+}
+
+form {
+	display: none;
+}
