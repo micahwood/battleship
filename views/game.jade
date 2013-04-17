@@ -1,2 +1,28 @@
 //- This should hold the 'game' view
 //- I think like the playing area I guess?
+
+extends layout
+
+block content
+	h2 Their Board
+	canvas#opponent-board.opponent.board(width="660", height="660")
+
+	h2 My Board
+	canvas#user-board.user.board(width="660", height="660")
+
+	div#my-pieces
+		span
+		span
+		span
+		span
+		span
+
+	button Lock it in
+
+block append footer
+	footer
+		script(src='/js/game.js')
+		script
+			$(document).ready(function(){
+				BATTLESHIP.game.init();
+			})

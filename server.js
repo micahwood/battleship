@@ -1,22 +1,3 @@
-// var http = require("http").createServer(handler),
-// 	io = require("socket.io").listen(http),
-// 	fs = require("fs");
-
-// function handler(request, response) {
-
-// }
-
-// io.sockets.on("connection", function(socket) {
-// 	socket.on("hi there", function(data) {
-// 		console.log(data);
-// 	});
-// });
-
-// // Module exports
-// exports.io = io; //exporting socket.io server object to have access to io.scokets 
-
-// Prob can delete the above??
-
 var express = require('express'),
 	app 	= express(),
 	http	= require('http'),
@@ -40,27 +21,6 @@ app.configure(function() {
 
 // Version 3.x of Express needs this server param
 var server = http.createServer(app);
-
-// Setup the errors
-// server.error(function(err, req, res, next){
-//     if(err instanceof NotFound) {
-//         res.render('404.jade', { locals: { 
-//                   title : '404 - Not Found'
-//                  ,description: ''
-//                  ,author: ''
-//                  ,analyticssiteid: 'XXXXXXX' 
-//                 },status: 404 });
-//     } 
-//     else {
-//         res.render('500.jade', { locals: { 
-//                   title : 'The Server Encountered an Error'
-//                  ,description: ''
-//                  ,author: ''
-//                  ,analyticssiteid: 'XXXXXXX'
-//                  ,error: err 
-//                 },status: 500 });
-//     }
-// });
 
 
 // Setup Socket.IO
@@ -94,13 +54,25 @@ app.get('/', function(req, res){
   res.render('index.jade', locals);
 });
 
+
+// How do we protect these pages?
 app.get('/game', function(req, res){ 
+
   var locals = {
     title : 'Battleship :: Game',
     description: 'This page has a real Battleship game.'
   }
   
   res.render('game.jade', locals);
+});
+
+app.get('/account', function(req, res){ 
+  var locals = {
+    title : 'Battleship :: Account',
+    description: 'This page has your account information for your Battleship user.'
+  }
+  
+  res.render('account.jade', locals);
 });
 
 // Errors - need to test these and also add a case for 404
