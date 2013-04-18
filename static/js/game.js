@@ -5,9 +5,43 @@ var BATTLESHIP = BATTLESHIP || {};
 BATTLESHIP.game = {
 
 	init: function(){
-		console.log("game initing...");
+console.log("game initing...");
 		this.drawUserBoard();
 		this.drawOpponentBoard();
+		this.bindEvents();
+	},
+
+	/* I guess, let's try keeping the coords for these pieces here
+	 * We can maybe pass them via ajax or w/e when the user locks em in?
+ 	 */
+	// Takes up 5 spaces
+	carrier: {
+		"x": 0,
+		"y": 0
+	},
+
+	// 4 spaces
+	battleship: {
+		"x": 0,
+		"y": 0
+	},
+
+	// 3 spaces
+	sub: {
+		"x": 0,
+		"y": 0
+	},
+
+	// 3 spaces
+	destroyer: {
+		"x": 0,
+		"y": 0
+	},
+
+	// 2 spaces
+	patrol: {
+		"x": 0,
+		"y": 0
 	},
 
 	// used to draw the lines and stuff?
@@ -30,8 +64,6 @@ BATTLESHIP.game = {
 			numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 			i, x, y;
 
-		//ctx.strokeStyle = "#333";
-		//ctx.fillStyle = "#333";
 		ctx.fillStyle = "rgb(17, 150, 162)";
     	ctx.font = "36pt Helvetica";
 		ctx.beginPath();
@@ -82,11 +114,25 @@ BATTLESHIP.game = {
 
 	// Ran after a user clicks button to save their pieces
 	lockPieces: function() {
-
+		//prob call some server side function to save their information 
 	},
 
 	// Need to bind events to the board
 	bindEvents: function() {
+		var carrier	   = $("#carrier"),
+			battleship = $("#battleship"),
+			sub		   = $("#sub"),
+			destroyer  = $("#destroyer"),
+			patrol     = $("#patrol"),
+			options    = {
+				"containment":document
+			}
 
+
+		carrier.draggable(options);
+		battleship.draggable();
+		sub.draggable();
+		destroyer.draggable();
+		patrol.draggable();
 	}
 };

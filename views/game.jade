@@ -10,14 +10,16 @@ block content
 	h2 My Board
 	canvas#user-board.user.board(width="660", height="660")
 
-	div#my-pieces
-		span
-		span
-		span
-		span
-		span
+	div#my-pieces.pieces
+		h2 My Pieces
+		span#carrier.ship.carrier
+		span#battleship.ship.battleship
+		span#sub.ship.sub
+		span#destroyer.ship.destroyer
+		span#patrol.ship.patrol
+		button Lock it in
 
-	button Lock it in
+	
 
 block append footer
 	footer

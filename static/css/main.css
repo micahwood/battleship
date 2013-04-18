@@ -46,3 +46,34 @@ form {
 	height: 660px;*/
 	background-color: #3aaab5;
 }
+
+.pieces {
+	border: 1px solid #ffffff;
+	float: right;
+	width: 320px;
+	height: 400px;
+}
+
+.ship {
+	height: 60px;
+	background-color: #66676d;
+	border: 1px solid #000000;
+	display: block;
+	margin-top: 2px;
+}
+
+.carrier {
+	width: 300px;
+}
+.battleship {
+	width: 240px;
+}
+.sub {
+	width: 180px;
+}
+.destroyer {
+	width: 180px;
+}
+.patrol {
+	width: 120px;
+}
