@@ -122,6 +122,9 @@ console.log("game initing...");
 			if(draggable.attr("id") == prop) {
 				spaces = ship.spaces;
 				orientation = ship.orientation;
+
+				// Save the cell nums
+				ship.cell_nums = game.current_hovered_cell_nums;
 			}
 		}
 

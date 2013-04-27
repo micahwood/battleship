@@ -31,7 +31,7 @@ a:hover {
 
 .wrapper {
 	margin: auto;
-	width: 1040px;
+	width: 1380px;
 }
 
 header h1 {
@@ -58,6 +58,10 @@ form {
 
 #my-board {
 	float: left;
+}
+
+#their-board {
+	float:right;
 }
 
 .row {
@@ -87,13 +91,12 @@ form {
 }
 
 #my-pieces {
-	float: right;
-	width: 320px;
-	height: 400px;
+	float: left;
+	width: 660px;
+	height: 280px;
 }
 
 .pieces {
-	height: 380px;
 	margin-bottom: 20px;
 	display: block;
 }
@@ -102,7 +105,8 @@ form {
 	height: 60px;
 	border: 2px dashed #FFFFFF;
 	padding: 2px;
-	margin-top: 10px;
+	margin: 5px 50px 5px 0;
+	float: left;
 }
 
 .docked {
