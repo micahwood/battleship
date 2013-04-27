@@ -96,14 +96,12 @@ console.log("game initing...");
 					square.droppable({
 						over: self.handleOver,
 						// out: self.handleOut,
-						hoverClass: "hovered",
+						// hoverClass: "hovered",
 					});
 				}
 			});
 		}
 		
-
-
 		carrier.draggable(options);
 		battleship.draggable(options);
 		sub.draggable(options);
@@ -114,8 +112,6 @@ console.log("game initing...");
 	handleDrop: function(event, ui) {
 		var draggable = ui.draggable,
 			spaces, i, orientation, ok_to_drop = false,
-			
-			
 			moving_left, moving_right,
 			game = BATTLESHIP.game, // TODO figure out how to ref BATTLESHIP down this deep
 			cell = $(".cell[data-cell='" + game.current_hovered_cell_nums[0] + "']");
@@ -184,24 +180,30 @@ console.log("game initing...");
 				}
 			}
 			else { //even
-				game.hovered_cell_nums.push(cell_letter + cell_num);
-				// math time
-			// 	if(moving_left) {
-			// 		left = draggable.offset().left - board.offset().left - CELL_WIDTH;
-			// 		top = draggable.offset().top - board.offset().top - CELL_HEIGHT;	
-
-			// 		var first_num = Math.round(left/CELL_WIDTH);
-			// 	}
-			// 	else {
-			// 		right = draggable.offset().right - board.offset().right - CELL_WIDTH;
-
-			// 		var first_num = Math.round(right/CELL_WIDTH);
-			// 	}
+				var range = spaces / 2;
+				var diff = (left >= CELL_WIDTH) ? left % CELL_WIDTH : left;
 				
-			// 	for(i = 0; i < spaces; i++) {
-			// 		var num = first_num + i;
-			// 		game.hovered_cell_nums.push(cell_letter + num);
-			// 	}
+				if(diff < 30) {
+					// more spaces to the left 
+					
+					// range will be to the left. so subtract range from cell_num
+					var first_num = cell_num - range;
+
+					for(i = 0; i < spaces; i++) {
+						var num = first_num + i;
+						game.hovered_cell_nums.push(cell_letter + num);
+					}
+				}
+				else {
+					// more to the right
+					// range will be to the left. so subtract range from cell_num
+					var first_num = cell_num;
+					
+					for(i = 0; i < spaces ; i++) {
+						var num = first_num + i;
+						game.hovered_cell_nums.push(cell_letter + num);
+					}
+				} 
 			}
 
 
@@ -219,7 +221,7 @@ console.log("game initing...");
 		else { // what about vertical..
 
 		}
-		
+console.log(game.hovered_cell_nums);		
 
 		// loop through all cells and hi-light those in
 		for(i = 0; i < letters.length; i++) {
