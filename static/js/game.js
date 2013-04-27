@@ -72,17 +72,12 @@ console.log("game initing...");
 			destroyer  = $("#destroyer"),
 			patrol     = $("#patrol"),
 			options    = {
-				//"containment": "#user-board",
 				"cursor": "move",
 				"revert": "invalid",
-				// refreshPositions: true,
 				revertDuration: 200,
 				snap: ".droppable",
 				snapTolerance: 10
-				// "snap": 
 				//"helper": helperFunction,
-				// refreshPositions: true,
-
 			},
 			letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
 			i,
@@ -127,6 +122,8 @@ console.log("game initing...");
 
 			//if horiz do this, vert will be different
 		$(draggable).css({top:-3,left:-1}).appendTo(cell);	
+
+		// save cell num array to the ship.cell_nums
 	},
 
 	handleOver: function(event, ui) {
@@ -158,42 +155,24 @@ console.log("game initing...");
 				spaces = ship.spaces;
 				orientation = ship.orientation;
 
-				// if(ship.x > 0 && ship.x > left) {
-				// 	moving_left = true;
-				// }
-				// else {
-				// 	moving_right = true;
-				// }
+				if(ship.x == 0 || ship.x > left) {
+					moving_left = true;
+				}
+				else {
+					moving_right = true;
+				}
 
-				// if(ship.y > 0) {
+				if(ship.y > 0) {
 
-				// }
-				// // Update the ship's coords
-				// ship.x = left;
-				// ship.y = top;
+				}
+				// Update the ship's coords
+				ship.x = left;
+				ship.y = top;
 			}
 		}	
 
 
-		var diff = left % CELL_WIDTH;
-		if(diff < 30) {
-
-		}
-		else {
-			// it's more than 30, it's not
-		}
-		
-	// console.log("top: "+ top +" left: "+left);
-
-		//cell_num = Math.round(left / CELL_WIDTH);
-
-	
 		if(orientation == "horizontal") {
-			// var hovered_cell = $(".hovered"),
-			// 	cell = hovered_cell.attr("data-cell"),
-			// 	;
-
-
 			// odd space pieces
 			if(spaces % 2 != 0) {
 				var range = (spaces - 1) / 2;
@@ -204,9 +183,27 @@ console.log("game initing...");
 					game.hovered_cell_nums.push(cell_letter + num);
 				}
 			}
-			else {
+			else { //even
+				game.hovered_cell_nums.push(cell_letter + cell_num);
 				// math time
+			// 	if(moving_left) {
+			// 		left = draggable.offset().left - board.offset().left - CELL_WIDTH;
+			// 		top = draggable.offset().top - board.offset().top - CELL_HEIGHT;	
+
+			// 		var first_num = Math.round(left/CELL_WIDTH);
+			// 	}
+			// 	else {
+			// 		right = draggable.offset().right - board.offset().right - CELL_WIDTH;
+
+			// 		var first_num = Math.round(right/CELL_WIDTH);
+			// 	}
+				
+			// 	for(i = 0; i < spaces; i++) {
+			// 		var num = first_num + i;
+			// 		game.hovered_cell_nums.push(cell_letter + num);
+			// 	}
 			}
+
 
 			// get the nums
 			for(var i = 0; i < game.hovered_cell_nums.length; i++) {
@@ -219,7 +216,10 @@ console.log("game initing...");
 
 
 		}
-		// what about vertical..
+		else { // what about vertical..
+
+		}
+		
 
 		// loop through all cells and hi-light those in
 		for(i = 0; i < letters.length; i++) {
@@ -251,8 +251,8 @@ console.log("game initing...");
 
 	handleOut: function(event, ui) {
 		var	game = BATTLESHIP.game; // TODO figure out how to ref BATTLESHIP down this deep;
-console.log("handleOut")
-console.log(game.current_hovered_cell_nums);
+// console.log("handleOut")
+// console.log(game.current_hovered_cell_nums);
 
 		for(i = 0; i < game.current_hovered_cell_nums.length; i++) {
 			var cell = $(".cell[data-cell='" + game.current_hovered_cell_nums[i] + "']");
