@@ -20,107 +20,44 @@ console.log("game initing...");
 			"x": 0,
 			"y": 0,
 			"orientation": "horizontal",
-			"spaces": 5
+			"spaces": 5,
+			"cell_nums": []
 		},
 
 		battleship: {
 			"x": 0,
 			"y": 0,
 			"orientation": "horizontal",
-			"spaces": 4
+			"spaces": 4,
+			"cell_nums": []
 		},
 
 		sub: {
 			"x": 0,
 			"y": 0,
 			"orientation": "horizontal",
-			"spaces": 3
+			"spaces": 3,
+			"cell_nums": []
 		},
 
 		destroyer: {
 			"x": 0,
 			"y": 0,
 			"orientation": "horizontal",
-			"spaces": 3
+			"spaces": 3,
+			"cell_nums": []
 		},
 
 		patrol: {
 			"x": 0,
 			"y": 0,
 			"orientation": "horizontal",
-			"spaces": 2
+			"spaces": 2,
+			"cell_nums": []
 		},
 	},
 
 	hovered_cell_nums: [],
-	// used to draw the lines and stuff?
-	drawUserBoard: function(){
-		this.drawGrid("user-board");
-	},
-
-	drawOpponentBoard: function() {
-		this.drawGrid("opponent-board");
-	},
-
-	// just using divs instead, whah...
-	// drawGrid: function(canvas_id) {
-	// 	var canvas = document.getElementById(canvas_id),
-	// 		ctx    = canvas.getContext("2d"),
-	// 		height = canvas.height,
-	// 		width  = canvas.width,
-	// 		hRange = height/11, // We need 11 rows/cols
-	// 		wRange = width/11,
-	// 		letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-	// 		numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-	// 		i, x, y;
-
-	// 	ctx.fillStyle = "rgb(17, 150, 162)";
- //    	ctx.font = "36pt Helvetica";
-	// 	ctx.beginPath();
-
-	// 	// Draw horizontal lines
-	// 	for(i = 0; i <= height; i += hRange) {
-	// 		ctx.moveTo(0, i);
-	// 		ctx.lineTo(width, i);
-	// 	}
-
-	// 	// Draw vertical lines
-	// 	for(i = 0; i <= width; i += wRange) {
-	// 		ctx.moveTo(i, 0);
-	// 		ctx.lineTo(i, height);
-	// 	}
-
-	// 	ctx.shadowOffsetX = 2;
-	// 	ctx.shadowOffsetY = 2;
-	// 	ctx.shadowBlur = 8;
-
-	// 	y = 108;
-	// 	// Draw letters
- //    	for(i = 0; i < letters.length; i++) {
- //    		var x = 13;
- //    		// 'I' is thin and needs moved over
- //    		if(letters[i] == "I") {
- //    			x += 10;
- //    		}
- //    		ctx.fillText(letters[i], x, y);
- //    		y += 60
- //    	}
-
- //    	x = 75;
- //    	// Draw Numbers
- //    	for(i = 0; i < numbers.length; i++) {
- //    		var y = 47;
-    		
- //    		// '10' is wider than the others
- //    		if(numbers[i] == 10) {
- //    			x -= 12;
- //    		}
- //    		ctx.fillText(numbers[i], x, y);
- //    		x += 60
- //    	}
-
-	// 	ctx.stroke();
-	// },
 
 	// Ran after a user clicks button to save their pieces
 	lockPieces: function() {
@@ -137,8 +74,11 @@ console.log("game initing...");
 			options    = {
 				//"containment": "#user-board",
 				"cursor": "move",
-				"revert": true,
+				"revert": "invalid",
+				// refreshPositions: true,
 				revertDuration: 200,
+				snap: ".droppable",
+				snapTolerance: 10
 				// "snap": 
 				//"helper": helperFunction,
 				// refreshPositions: true,
@@ -159,11 +99,9 @@ console.log("game initing...");
 
 					// Might as well make these droppable while we're here
 					square.droppable({
-						//drop: self.handleDrop,
 						over: self.handleOver,
 						// out: self.handleOut,
 						hoverClass: "hovered",
-						// tolerance: "touch"
 					});
 				}
 			});
@@ -181,16 +119,14 @@ console.log("game initing...");
 	handleDrop: function(event, ui) {
 		var draggable = ui.draggable,
 			spaces, i, orientation, ok_to_drop = false,
-			cell = $(this).attr("data-cell"),
-			cell_num = parseInt(cell.substr(1), 10),
-			cell_letter = cell.substr(0,1),
+			
+			
 			moving_left, moving_right,
-			game = BATTLESHIP.game; // TODO figure out how to ref BATTLESHIP down this deep
+			game = BATTLESHIP.game, // TODO figure out how to ref BATTLESHIP down this deep
+			cell = $(".cell[data-cell='" + game.current_hovered_cell_nums[0] + "']");
 
-
-		moving_left = false;
-		moving_right = false;
-
+			//if horiz do this, vert will be different
+		$(draggable).css({top:-3,left:-1}).appendTo(cell);	
 	},
 
 	handleOver: function(event, ui) {
@@ -222,23 +158,22 @@ console.log("game initing...");
 				spaces = ship.spaces;
 				orientation = ship.orientation;
 
-				if(ship.x > 0 && ship.x > left) {
-					moving_left = true;
-				}
-				else {
-					moving_right = true;
-				}
+				// if(ship.x > 0 && ship.x > left) {
+				// 	moving_left = true;
+				// }
+				// else {
+				// 	moving_right = true;
+				// }
 
-				if(ship.y > 0) {
+				// if(ship.y > 0) {
 
-				}
-				// Update the ship's coords
-				ship.x = left;
-				ship.y = top;
+				// }
+				// // Update the ship's coords
+				// ship.x = left;
+				// ship.y = top;
 			}
 		}	
 
-		console.log('moving left:'+moving_left)
 
 		var diff = left % CELL_WIDTH;
 		if(diff < 30) {
@@ -248,7 +183,7 @@ console.log("game initing...");
 			// it's more than 30, it's not
 		}
 		
-	console.log("top: "+ top +" left: "+left);
+	// console.log("top: "+ top +" left: "+left);
 
 		//cell_num = Math.round(left / CELL_WIDTH);
 
@@ -296,10 +231,12 @@ console.log("game initing...");
 					// if square attribute data cell is in game.hovered_cell_nums
 					if($.inArray(square.attr("data-cell"), game.hovered_cell_nums) != -1) {
 						// drop is now enabled for only these...
-						square.addClass("hovered");
 						square.droppable({
-							drop: self.handleDrop,
+							drop: game.handleDrop,
 						});
+
+						square.addClass("hovered")
+							  .addClass("droppable");
 					} 
 					else {
 						square.removeClass("hovered");
@@ -309,12 +246,7 @@ console.log("game initing...");
 			});
 		}
 
-
-		
 		game.current_hovered_cell_nums = game.hovered_cell_nums;
-		// console.log(cell_letter+cell_num)
-		console.log("handle over")
-		console.log(game.hovered_cell_nums);
 	},
 
 	handleOut: function(event, ui) {
