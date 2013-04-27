@@ -21,6 +21,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+.clear {
+	clear: both;
+}
+
 .wrapper {
 
 }
@@ -42,9 +46,35 @@ form {
 
 /* Game Boards */
 .board {
-	/*width: 660px;
-	height: 660px;*/
+	width: 660px;
+	height: 660px;
 	background-color: #3aaab5;
+}
+
+.row {
+	height: 58px;
+	width: 100%;
+	border: 1px solid black;
+	margin: 0px;
+}
+
+.cell {
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	height: 60px;
+	width: 58px;
+	float: left;
+	color: rgb(17, 150, 162);
+	font-size: 36px;
+	text-align: center;
+}
+
+.inner {
+	padding-top: 10px;
+}
+
+.hovered {
+	background-color: #FF0000;
 }
 
 .pieces {
