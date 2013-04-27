@@ -1,11 +1,10 @@
 //- This should hold the 'game' view
-//- I think like the playing area I guess?
 
 extends layout
 
 block content
-	h2 Their Board
-	div#user-board.board
+	h2 My Board
+	div#my-board.board
 		div.row
 			div.cell
 			div.cell
@@ -160,19 +159,181 @@ block content
 			div.cell
 		div.clear		
 
-	h2 My Board
-	//- canvas#user-board.user.board(width="660", height="660")
-	//- div#board
-
-	div#my-pieces.pieces
+	div#my-pieces
 		h2 My Pieces
-		span#carrier.ship.carrier
-		span#battleship.ship.battleship
-		span#sub.ship.sub
-		span#destroyer.ship.destroyer
-		span#patrol.ship.patrol
+		div.pieces
+			div.dock.carrier
+				span#carrier.ship.carrier.docked
+			div.dock.battleship
+				span#battleship.ship.battleship.docked
+			div.dock.sub
+				span#sub.ship.sub.docked
+			div.dock.destroyer
+				span#destroyer.ship.destroyer.docked
+			div.dock.patrol
+				span#patrol.ship.patrol.docked
 		button Lock it in
 		button Reset
+
+	div.clear	
+	h2 Their Board
+	div#their-board.board
+		div.row
+			div.cell
+			div.cell
+				div.inner 1
+			div.cell
+				div.inner 2
+			div.cell
+				div.inner 3
+			div.cell
+				div.inner 4
+			div.cell
+				div.inner 5
+			div.cell
+				div.inner 6
+			div.cell
+				div.inner 7
+			div.cell
+				div.inner 8
+			div.cell
+				div.inner 9
+			div.cell	
+				div.inner 10
+		div#A.row	
+			div.cell
+				div.inner A
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#B.row
+			div.cell 
+				div.inner B
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#C.row
+			div.cell
+				div.inner C
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#D.row
+			div.cell
+				div.inner D
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#E.row
+			div.cell
+				div.inner E
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#F.row
+			div.cell
+				div.inner F
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#G.row
+			div.cell
+				div.inner G
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#H.row
+			div.cell
+				div.inner H
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#I.row
+			div.cell
+				div.inner I
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div#J.row
+			div.cell
+				div.inner J
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+			div.cell
+		div.clear
+
+
+	
 
 	
 

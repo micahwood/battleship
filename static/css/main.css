@@ -9,6 +9,10 @@ p {
 	font-weight: lighter;
 }
 
+button {
+	margin: 0 5px 0 0;
+}
+
 a {
 	text-decoration: none;
 	color: #ead620;
@@ -26,7 +30,8 @@ a:hover {
 }
 
 .wrapper {
-
+	margin: auto;
+	width: 1040px;
 }
 
 header h1 {
@@ -51,6 +56,10 @@ form {
 	background-color: #3aaab5;
 }
 
+#my-board {
+	float: left;
+}
+
 .row {
 	height: 58px;
 	width: 100%;
@@ -61,7 +70,7 @@ form {
 .cell {
 	border-left: 1px solid black;
 	border-right: 1px solid black;
-	height: 60px;
+	height: 58px; /* The parent .row has a 1px border */
 	width: 58px;
 	float: left;
 	color: rgb(17, 150, 162);
@@ -77,15 +86,32 @@ form {
 	background-color: #FF0000;
 }
 
-.pieces {
-	border: 1px solid #ffffff;
+#my-pieces {
 	float: right;
 	width: 320px;
 	height: 400px;
 }
 
-.ship {
+.pieces {
+	height: 380px;
+	margin-bottom: 20px;
+	display: block;
+}
+
+.dock {
 	height: 60px;
+	border: 2px dashed #FFFFFF;
+	padding: 2px;
+	margin-top: 10px;
+}
+
+.docked {
+	left: -1px;
+	top: -2px;
+}
+
+.ship {
+	height: 58px;
 	background-color: #66676d;
 	border: 1px solid #000000;
 	display: block;
@@ -93,7 +119,7 @@ form {
 }
 
 .carrier {
-	width: 300px;
+	width: 298px;
 }
 .battleship {
 	width: 240px;

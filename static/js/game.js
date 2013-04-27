@@ -116,8 +116,23 @@ console.log("game initing...");
 			game = BATTLESHIP.game, // TODO figure out how to ref BATTLESHIP down this deep
 			cell = $(".cell[data-cell='" + game.current_hovered_cell_nums[0] + "']");
 
-			//if horiz do this, vert will be different
-		$(draggable).css({top:-3,left:-1}).appendTo(cell);	
+		for(var prop in game.ships) {
+			var ship = game.ships[prop];
+
+			if(draggable.attr("id") == prop) {
+				spaces = ship.spaces;
+				orientation = ship.orientation;
+			}
+		}
+
+		if(orientation == "horizontal") {
+			$(draggable).css({top:-3,left:-1}).appendTo(cell);	
+		}
+		else {
+			// vert will be different
+		}
+			
+		
 
 		// save cell num array to the ship.cell_nums
 	},
@@ -125,7 +140,7 @@ console.log("game initing...");
 	handleOver: function(event, ui) {
 		var draggable  = ui.draggable,
 			target     = event.target,
-			board      = $("#user-board"),
+			board      = $("#my-board"),
 			CELL_WIDTH = 60, 
 			CELL_HEIGHT = 60, 
 			spaces, orientation,
@@ -151,63 +166,46 @@ console.log("game initing...");
 				spaces = ship.spaces;
 				orientation = ship.orientation;
 
-				if(ship.x == 0 || ship.x > left) {
-					moving_left = true;
-				}
-				else {
-					moving_right = true;
-				}
-
-				if(ship.y > 0) {
-
-				}
 				// Update the ship's coords
 				ship.x = left;
 				ship.y = top;
 			}
 		}	
 
-
 		if(orientation == "horizontal") {
-			// odd space pieces
+			// First, we need to get the first cell number for our array of cell nums. 
+			// Start with the pieces w/ an odd number of spaces
 			if(spaces % 2 != 0) {
+				// The cell that is hovered over will have an equal number of cells
+				// hovered over on each side of it. 
 				var range = (spaces - 1) / 2;
 				var first_num = cell_num - range;
-
-				for(i = 0; i < spaces; i++) {
-					var num = first_num + i;
-					game.hovered_cell_nums.push(cell_letter + num);
-				}
 			}
-			else { //even
+			else { 
+				// Pieces w/ an even number of spaces. We need to figure out if the piece
+				// is more towards the left of the hovered cell or the right. 
 				var range = spaces / 2;
 				var diff = (left >= CELL_WIDTH) ? left % CELL_WIDTH : left;
 				
 				if(diff < 30) {
-					// more spaces to the left 
-					
-					// range will be to the left. so subtract range from cell_num
+					// In this case, the piece will have more cells to the left,
+					// so subtract range from cell_num
 					var first_num = cell_num - range;
-
-					for(i = 0; i < spaces; i++) {
-						var num = first_num + i;
-						game.hovered_cell_nums.push(cell_letter + num);
-					}
 				}
 				else {
-					// more to the right
-					// range will be to the left. so subtract range from cell_num
-					var first_num = cell_num;
-					
-					for(i = 0; i < spaces ; i++) {
-						var num = first_num + i;
-						game.hovered_cell_nums.push(cell_letter + num);
-					}
+					// In this case, the piece will have more cells to the right,
+					// so start with the hovered over cell num minus half the range. 
+					var first_num = cell_num - (range / 2);
 				} 
 			}
 
+			// Fill the array with the proper cells. 
+			for(i = 0; i < spaces; i++) {
+					var num = first_num + i;
+					game.hovered_cell_nums.push(cell_letter + num);
+			}
 
-			// get the nums
+			// For each hovered over cell, add the hovered class to it. 
 			for(var i = 0; i < game.hovered_cell_nums.length; i++) {
 			 	var cell = $(".cell[data-cell='" + game.hovered_cell_nums[i] + "']");
 				
@@ -215,39 +213,34 @@ console.log("game initing...");
 					cell.addClass("hovered");
 			 	}				
 			}
-
+		}
+		else { // @TODO what about vertical..
 
 		}
-		else { // what about vertical..
 
-		}
-console.log(game.hovered_cell_nums);		
-
-		// loop through all cells and hi-light those in
+		// Loop through all cells and hilight those in the hovered_cells array. 
+		// Also, make those cells droppable. 
 		for(i = 0; i < letters.length; i++) {
-			letter = letters[i];
+			var letter = letters[i];
 			$("#" + letter).children().each(function(i){
 				var square = $(this);
+
 				// Skip the first cell w/ the label
 				if(i != 0) {
-					// if square attribute data cell is in game.hovered_cell_nums
 					if($.inArray(square.attr("data-cell"), game.hovered_cell_nums) != -1) {
-						// drop is now enabled for only these...
-						square.droppable({
-							drop: game.handleDrop,
-						});
-
-						square.addClass("hovered")
+						// Enable drop for only these cells
+						square.droppable({ drop: game.handleDrop})
+							  .addClass("hovered")
 							  .addClass("droppable");
 					} 
 					else {
 						square.removeClass("hovered");
 					}
-					
 				}
 			});
 		}
 
+		// Save state, not yet sure if we'll need to keep this. 
 		game.current_hovered_cell_nums = game.hovered_cell_nums;
 	},
 

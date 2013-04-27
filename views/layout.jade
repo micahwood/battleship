@@ -17,21 +17,22 @@ html.no-js(lang='en')
     link(rel='stylesheet', href='/css/main.css')
     //- script(src='js/libs/modernizr-2.0.6.min.js')
   body
-    block header
-        header
-          h1 Battleship
-          .sub-heading A [clever] Sub-Heading
-    
-    block content
-        p Welcome to Battleship!
+    div.wrapper
+      block header
+          header
+            h1 Battleship
+            .sub-heading A [clever] Sub-Heading
+      
+      block content
+          p Welcome to Battleship!
 
-    block footer
-      footer
-        script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
-        script
-          window.jQuery || document.write('<script src="js/lib/jquery-1.9.1.min.js"><\\/script>')
-        //-script(defer, src='js/plugins.js')
-        script(src='js/lib/jquery-ui-1.10.2.custom.js');
-        script(src='/js/Battleship.js')
-        script(src='/js/init.js')
-        script(src='/socket.io/socket.io.js')
+      block footer
+        footer
+          script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+          script
+            window.jQuery || document.write('<script src="js/lib/jquery-1.9.1.min.js"><\\/script>')
+          //-script(defer, src='js/plugins.js')
+          script(src='js/lib/jquery-ui-1.10.2.custom.js');
+          script(src='/js/Battleship.js')
+          script(src='/js/init.js')
+          script(src='/socket.io/socket.io.js')
