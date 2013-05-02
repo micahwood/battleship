@@ -102,11 +102,20 @@ console.log("game initing...");
 			});
 		}
 		
+		// Make ships dragable
 		carrier.draggable(options);
 		battleship.draggable(options);
 		sub.draggable(options);
 		destroyer.draggable(options);
 		patrol.draggable(options);
+
+		// Make dock droppable
+		$(".dock").each(function(){
+			$(this).droppable(); // need to set these options
+		});
+
+		// Reset button
+		$("#reset-button").on("click", self.dockPieces);
 	},
 
 	handleDrop: function(event, ui) {
@@ -135,9 +144,6 @@ console.log("game initing...");
 			// vert will be different
 		}
 			
-		
-
-		// save cell num array to the ship.cell_nums
 	},
 
 	handleOver: function(event, ui) {
@@ -148,7 +154,6 @@ console.log("game initing...");
 			CELL_HEIGHT = 60, 
 			spaces, orientation,
 			cell = $(this).attr("data-cell"),
-			letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
 			cell_num = parseInt(cell.substr(1), 10), left, top,
 			cell_letter = cell.substr(0,1),
 			moving_left = false, moving_right = false,
@@ -221,6 +226,28 @@ console.log("game initing...");
 
 		}
 
+		game.repaintBoard();		
+
+		// Save state, not yet sure if we'll need to keep this. 
+		game.current_hovered_cell_nums = game.hovered_cell_nums;
+	},
+
+	handleOut: function(event, ui) {
+		var	game = BATTLESHIP.game; // TODO figure out how to ref BATTLESHIP down this deep;
+
+		for(i = 0; i < game.current_hovered_cell_nums.length; i++) {
+			var cell = $(".cell[data-cell='" + game.current_hovered_cell_nums[i] + "']");
+				
+			if(cell.length > 0) {
+					cell.removeClass("hovered");
+			}				
+		}
+	},
+
+	repaintBoard: function() {
+		var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+			game = BATTLESHIP.game;
+
 		// Loop through all cells and hilight those in the hovered_cells array. 
 		// Also, make those cells droppable. 
 		for(i = 0; i < letters.length; i++) {
@@ -242,22 +269,27 @@ console.log("game initing...");
 				}
 			});
 		}
-
-		// Save state, not yet sure if we'll need to keep this. 
-		game.current_hovered_cell_nums = game.hovered_cell_nums;
 	},
 
-	handleOut: function(event, ui) {
-		var	game = BATTLESHIP.game; // TODO figure out how to ref BATTLESHIP down this deep;
-// console.log("handleOut")
-// console.log(game.current_hovered_cell_nums);
+	// Resets the pieces to their dock
+	dockPieces: function() {
+		var game = BATTLESHIP.game, // TODO figure out how to ref BATTLESHIP down this deep;
+			ships = game.ships;
 
-		for(i = 0; i < game.current_hovered_cell_nums.length; i++) {
-			var cell = $(".cell[data-cell='" + game.current_hovered_cell_nums[i] + "']");
-				
-			if(cell.length > 0) {
-					cell.removeClass("hovered");
-			}				
+		// Since we're not hovering over anything, blank this out
+		game.hovered_cell_nums = [];
+
+		// Loop through ships and return each one to its dock. 
+		for(var prop in game.ships) {
+			var ship = game.ships[prop],
+			  	ship_node = $("#" + prop);
+
+			// @TODO animate this...
+			if(ship.cell_nums.length > 0) {
+				$(".dock." + prop).append(ship_node);
+			}
 		}
+
+		game.repaintBoard();		
 	}
 };
