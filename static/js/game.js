@@ -5,9 +5,7 @@ var BATTLESHIP = BATTLESHIP || {};
 BATTLESHIP.game = {
 
 	init: function(){
-console.log("game initing...");
-		// this.drawUserBoard();
-		// this.drawOpponentBoard();
+
 		this.bindEvents();
 	},
 
@@ -57,126 +55,113 @@ console.log("game initing...");
 		},
 	},
 
+	// This will hold the cell numbers currently being hovered over. 
 	hovered_cell_nums: [],
+
 
 	// Ran after a user clicks button to save their pieces
 	lockPieces: function() {
 		//prob call some server side function to save their information 
+
+		// loop through ships, make sure they all have cell_nums, if not error...
+
+		//pass cell nums to the server for saving..somewhere
 	},
 
-	// Need to bind events to the board
-	bindEvents: function() {
-		var carrier	   = $("#carrier"),
-			battleship = $("#battleship"),
-			sub		   = $("#sub"),
-			destroyer  = $("#destroyer"),
-			patrol     = $("#patrol"),
-			options    = {
-				"cursor": "move",
-				"revert": "invalid",
-				revertDuration: 200,
-				snap: ".droppable",
-				snapTolerance: 10
-				//"helper": helperFunction,
-			},
-			letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-			i,
-			self = this;
 
+	bindEvents: function() {
+		var that = this,
+			letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+			i;
+			
+		// Loop through cells, label them and make them droppable. 	
 		for(i = 0; i < letters.length; i++) {
-			letter = letters[i];
+			var letter = letters[i];
 			$("#" + letter).children().each(function(i){
 				var square = $(this);
+
 				// Skip the first cell w/ the label
 				if(i != 0) {
 					label = letter + i;
 					square.attr("data-cell", label);
-
 					// Might as well make these droppable while we're here
-					square.droppable({
-						over: self.handleOver,
-						// out: self.handleOut,
-						// hoverClass: "hovered",
-					});
+					square.droppable({ over: $.proxy(that.handleOver, that) });
 				}
 			});
 		}
 		
 		// Make ships dragable
-		carrier.draggable(options);
-		battleship.draggable(options);
-		sub.draggable(options);
-		destroyer.draggable(options);
-		patrol.draggable(options);
-
-		// Make dock droppable
+		for(var prop in this.ships) {
+			$("#" + prop).draggable({
+				cursor: "move",
+				revert: "invalid",
+				revertDuration: 200,
+				snap: ".droppable",
+				snapTolerance: 10
+				//"helper": helperFunction,
+			});
+		}
+		
+		// Make each dock droppable
 		$(".dock").each(function(){
-			$(this).droppable(); // need to set these options
+			$(this).droppable(); // need to set these options?
 		});
 
 		// Reset button
-		$("#reset-button").on("click", self.dockPieces);
+		$("#reset-button").on( "click", $.proxy(this.dockPieces, this) );
 	},
+
 
 	handleDrop: function(event, ui) {
 		var draggable = ui.draggable,
-			spaces, i, orientation, ok_to_drop = false,
-			moving_left, moving_right,
-			game = BATTLESHIP.game, // TODO figure out how to ref BATTLESHIP down this deep
-			cell = $(".cell[data-cell='" + game.current_hovered_cell_nums[0] + "']");
+			ships = this.ships,
+			cell = $(".cell[data-cell='" + this.hovered_cell_nums[0] + "']");
 
-		for(var prop in game.ships) {
-			var ship = game.ships[prop];
+		for(var prop in ships) {
+			var ship = ships[prop];
 
 			if(draggable.attr("id") == prop) {
-				spaces = ship.spaces;
-				orientation = ship.orientation;
-
 				// Save the cell nums
-				ship.cell_nums = game.current_hovered_cell_nums;
+				ship.cell_nums = this.hovered_cell_nums;
+
+				if(ship.orientation == "horizontal") {
+					$(draggable).css({top:-3,left:-1}).appendTo(cell);	
+				}
+				else {
+					// vert will be different
+				}
 			}
 		}
-
-		if(orientation == "horizontal") {
-			$(draggable).css({top:-3,left:-1}).appendTo(cell);	
-		}
-		else {
-			// vert will be different
-		}
-			
 	},
+
 
 	handleOver: function(event, ui) {
 		var draggable  = ui.draggable,
-			target     = event.target,
+			cell     = $(event.target).attr("data-cell"),
 			board      = $("#my-board"),
 			CELL_WIDTH = 60, 
 			CELL_HEIGHT = 60, 
 			spaces, orientation,
-			cell = $(this).attr("data-cell"),
 			cell_num = parseInt(cell.substr(1), 10), left, top,
 			cell_letter = cell.substr(0,1),
 			moving_left = false, moving_right = false,
 			moving_up = false, moving_down = false,
-			game = BATTLESHIP.game; // TODO figure out how to ref BATTLESHIP down this deep;
+			ships = this.ships,
+			that = this;
 			
-			game.hovered_cell_nums = [];
+			this.hovered_cell_nums = [];
 
 		// This should be the X coord of the piece relative to the board
 		left = draggable.offset().left - board.offset().left - CELL_WIDTH;
 		top = draggable.offset().top - board.offset().top - CELL_HEIGHT;	
 			
 		// loop here and figure out which ship we're dragging
-		for(var prop in game.ships) {
-			var ship = game.ships[prop];
+		for(var prop in ships) {
+			var ship = ships[prop];
 
 			if(draggable.attr("id") == prop) {
 				spaces = ship.spaces;
 				orientation = ship.orientation;
-
-				// Update the ship's coords
-				ship.x = left;
-				ship.y = top;
 			}
 		}	
 
@@ -210,12 +195,12 @@ console.log("game initing...");
 			// Fill the array with the proper cells. 
 			for(i = 0; i < spaces; i++) {
 					var num = first_num + i;
-					game.hovered_cell_nums.push(cell_letter + num);
+					this.hovered_cell_nums.push( cell_letter + num );
 			}
 
 			// For each hovered over cell, add the hovered class to it. 
-			for(var i = 0; i < game.hovered_cell_nums.length; i++) {
-			 	var cell = $(".cell[data-cell='" + game.hovered_cell_nums[i] + "']");
+			for(var i = 0; i < this.hovered_cell_nums.length; i++) {
+			 	var cell = $(".cell[data-cell='" + this.hovered_cell_nums[i] + "']");
 				
 				if(cell.length > 0) {
 					cell.addClass("hovered");
@@ -226,29 +211,15 @@ console.log("game initing...");
 
 		}
 
-		game.repaintBoard();		
-
-		// Save state, not yet sure if we'll need to keep this. 
-		game.current_hovered_cell_nums = game.hovered_cell_nums;
+		this.repaintBoard();		
 	},
 
-	handleOut: function(event, ui) {
-		var	game = BATTLESHIP.game; // TODO figure out how to ref BATTLESHIP down this deep;
-
-		for(i = 0; i < game.current_hovered_cell_nums.length; i++) {
-			var cell = $(".cell[data-cell='" + game.current_hovered_cell_nums[i] + "']");
-				
-			if(cell.length > 0) {
-					cell.removeClass("hovered");
-			}				
-		}
-	},
-
+	
 	repaintBoard: function() {
-		var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-			game = BATTLESHIP.game;
+		var that = this,
+		    letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-		// Loop through all cells and hilight those in the hovered_cells array. 
+		// Loop through all cells and highlight those in the hovered_cells array. 
 		// Also, make those cells droppable. 
 		for(i = 0; i < letters.length; i++) {
 			var letter = letters[i];
@@ -257,9 +228,9 @@ console.log("game initing...");
 
 				// Skip the first cell w/ the label
 				if(i != 0) {
-					if($.inArray(square.attr("data-cell"), game.hovered_cell_nums) != -1) {
-						// Enable drop for only these cells
-						square.droppable({ drop: game.handleDrop})
+					if($.inArray(square.attr("data-cell"), that.hovered_cell_nums) != -1) {
+
+						square.droppable({ drop: $.proxy(that.handleDrop, that) })
 							  .addClass("hovered")
 							  .addClass("droppable");
 					} 
@@ -271,17 +242,17 @@ console.log("game initing...");
 		}
 	},
 
+
 	// Resets the pieces to their dock
 	dockPieces: function() {
-		var game = BATTLESHIP.game, // TODO figure out how to ref BATTLESHIP down this deep;
-			ships = game.ships;
+		var ships = this.ships;
 
 		// Since we're not hovering over anything, blank this out
-		game.hovered_cell_nums = [];
+		this.hovered_cell_nums = [];
 
 		// Loop through ships and return each one to its dock. 
-		for(var prop in game.ships) {
-			var ship = game.ships[prop],
+		for(var prop in ships) {
+			var ship = ships[prop],
 			  	ship_node = $("#" + prop);
 
 			// @TODO animate this...
@@ -290,6 +261,6 @@ console.log("game initing...");
 			}
 		}
 
-		game.repaintBoard();		
+		this.repaintBoard();		
 	}
 };
