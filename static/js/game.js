@@ -5,7 +5,6 @@ var BATTLESHIP = BATTLESHIP || {};
 BATTLESHIP.game = {
 
 	init: function(){
-
 		this.bindEvents();
 	},
 
@@ -13,42 +12,31 @@ BATTLESHIP.game = {
 	 * We can maybe pass them via ajax or w/e when the user locks em in?
  	 */
 	ships: {
-
 		carrier: {
-			"x": 0,
-			"y": 0,
 			"orientation": "horizontal",
 			"spaces": 5,
 			"cell_nums": []
 		},
 
 		battleship: {
-			"x": 0,
-			"y": 0,
 			"orientation": "horizontal",
 			"spaces": 4,
 			"cell_nums": []
 		},
 
 		sub: {
-			"x": 0,
-			"y": 0,
 			"orientation": "horizontal",
 			"spaces": 3,
 			"cell_nums": []
 		},
 
 		destroyer: {
-			"x": 0,
-			"y": 0,
 			"orientation": "horizontal",
 			"spaces": 3,
 			"cell_nums": []
 		},
 
 		patrol: {
-			"x": 0,
-			"y": 0,
 			"orientation": "horizontal",
 			"spaces": 2,
 			"cell_nums": []
@@ -136,20 +124,19 @@ BATTLESHIP.game = {
 
 
 	handleOver: function(event, ui) {
-		var draggable  = ui.draggable,
-			cell     = $(event.target).attr("data-cell"),
-			board      = $("#my-board"),
-			CELL_WIDTH = 60, 
-			CELL_HEIGHT = 60, 
-			spaces, orientation,
-			cell_num = parseInt(cell.substr(1), 10), left, top,
+		var that        = this,
+			draggable   = ui.draggable,
+			ships       = this.ships,
+			cell        = $(event.target).attr("data-cell"),
+			cell_num    = parseInt(cell.substr(1), 10), left, top,
 			cell_letter = cell.substr(0,1),
-			moving_left = false, moving_right = false,
-			moving_up = false, moving_down = false,
-			ships = this.ships,
-			that = this;
+			board       = $("#my-board"),
+			CELL_WIDTH  = 60, 
+			CELL_HEIGHT = 60, 
+			spaces, orientation;
 			
-			this.hovered_cell_nums = [];
+		// Blank this out
+		this.hovered_cell_nums = [];
 
 		// This should be the X coord of the piece relative to the board
 		left = draggable.offset().left - board.offset().left - CELL_WIDTH;
@@ -194,8 +181,8 @@ BATTLESHIP.game = {
 
 			// Fill the array with the proper cells. 
 			for(i = 0; i < spaces; i++) {
-					var num = first_num + i;
-					this.hovered_cell_nums.push( cell_letter + num );
+				var num = first_num + i;
+				this.hovered_cell_nums.push( cell_letter + num );
 			}
 
 			// For each hovered over cell, add the hovered class to it. 
