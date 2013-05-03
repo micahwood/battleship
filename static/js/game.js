@@ -1,7 +1,5 @@
 var BATTLESHIP = BATTLESHIP || {};
 
-
-// Sets up the game board canvas and stuff
 BATTLESHIP.game = {
 
 	init: function(){
