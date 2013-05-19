@@ -64,6 +64,11 @@ form {
 	float:right;
 }
 
+.error {
+	color: #ea184e;
+	font-weight: lighter;
+}
+
 .row {
 	height: 58px;
 	width: 100%;

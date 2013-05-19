@@ -6,9 +6,9 @@ BATTLESHIP.game = {
 		this.bindEvents();
 	},
 
-	/* I guess, let's try keeping the coords for these pieces here
-	 * We can maybe pass them via ajax or w/e when the user locks em in?
- 	 */
+	// This will hold the cell numbers currently being hovered over. 
+	hovered_cell_nums: [],
+
 	ships: {
 		carrier: {
 			"orientation": "horizontal",
@@ -39,19 +39,6 @@ BATTLESHIP.game = {
 			"spaces": 2,
 			"cell_nums": []
 		},
-	},
-
-	// This will hold the cell numbers currently being hovered over. 
-	hovered_cell_nums: [],
-
-
-	// Ran after a user clicks button to save their pieces
-	lockPieces: function() {
-		//prob call some server side function to save their information 
-
-		// loop through ships, make sure they all have cell_nums, if not error...
-
-		//pass cell nums to the server for saving..somewhere
 	},
 
 
@@ -95,6 +82,48 @@ BATTLESHIP.game = {
 
 		// Reset button
 		$("#reset-button").on( "click", $.proxy(this.dockPieces, this) );
+		// Save button
+		$("#lock-button").on("click", $.proxy(this.lockPieces, this));
+
+	},
+
+
+	// Ran after a user clicks button to save their pieces
+	lockPieces: function() {
+		var ships = this.ships,
+			data  = {},
+			errors = []; 
+
+		// loop through ships and make sure they all have cell_nums
+		$.each(ships, function(shipName, props) {
+			if(this.cell_nums.length == 0) {
+				$(".error").text("Make sure to set your ships before locking them in.");
+				$(".dock." + shipName).css("border-color", "#ea184e");
+				errors.push(shipName)
+				return; //??
+			}
+			else {
+				$(".dock." + shipName).css("border-color", "#ffffff");
+				// Save our cell numbers
+				data[shipName] = props.cell_nums;
+			}
+		});
+
+		if(errors.length == 0) {
+
+			$.ajax({
+				url: "/game/lock", // eventuall /game/:id/lock
+				type: "post",
+				data: data,
+				done: function(response) {
+					console.log(response);
+				}
+			})
+			//prob call some server side function to save their information 
+
+			//pass cell nums to the server for saving..somewhere
+	
+		}
 	},
 
 
@@ -122,16 +151,16 @@ BATTLESHIP.game = {
 
 
 	handleOver: function(event, ui) {
-		var that        = this,
-			draggable   = ui.draggable,
+		var draggable   = ui.draggable,
 			ships       = this.ships,
-			cell        = $(event.target).attr("data-cell"),
+			cell        = $(event.target).data("cell"),
 			cell_num    = parseInt(cell.substr(1), 10), left, top,
 			cell_letter = cell.substr(0,1),
 			board       = $("#my-board"),
 			CELL_WIDTH  = 60, 
 			CELL_HEIGHT = 60, 
-			spaces, orientation;
+			spaces, orientation,
+			first_num, range, diff;
 			
 		// Blank this out
 		this.hovered_cell_nums = [];
@@ -156,24 +185,24 @@ BATTLESHIP.game = {
 			if(spaces % 2 != 0) {
 				// The cell that is hovered over will have an equal number of cells
 				// hovered over on each side of it. 
-				var range = (spaces - 1) / 2;
-				var first_num = cell_num - range;
+				range = (spaces - 1) / 2;
+				first_num = cell_num - range;
 			}
 			else { 
 				// Pieces w/ an even number of spaces. We need to figure out if the piece
 				// is more towards the left of the hovered cell or the right. 
-				var range = spaces / 2;
-				var diff = (left >= CELL_WIDTH) ? left % CELL_WIDTH : left;
+				range = spaces / 2;
+				diff = (left >= CELL_WIDTH) ? left % CELL_WIDTH : left;
 				
 				if(diff < 30) {
 					// In this case, the piece will have more cells to the left,
 					// so subtract range from cell_num
-					var first_num = cell_num - range;
+					first_num = cell_num - range;
 				}
 				else {
 					// In this case, the piece will have more cells to the right,
 					// so start with the hovered over cell num minus half the range. 
-					var first_num = cell_num - (range / 2);
+					first_num = cell_num - (range / 2);
 				} 
 			}
 
@@ -213,7 +242,7 @@ BATTLESHIP.game = {
 
 				// Skip the first cell w/ the label
 				if(i != 0) {
-					if($.inArray(square.attr("data-cell"), that.hovered_cell_nums) != -1) {
+					if($.inArray(square.data("cell"), that.hovered_cell_nums) != -1) {
 
 						square.droppable({ drop: $.proxy(that.handleDrop, that) })
 							  .addClass("hovered")
@@ -246,6 +275,15 @@ BATTLESHIP.game = {
 			}
 		}
 
+		this.resetPieces();
 		this.repaintBoard();		
+	},
+
+	// Reset the pieces cell_nums - called when they're docked again. 
+	resetPieces: function() {
+		$.each(this.ships, function(){
+			this.cell_nums = [];
+		});
 	}
+
 };
