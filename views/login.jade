@@ -2,7 +2,7 @@ extends layout
 
 append head
       script(src='./socket.io/socket.io.js')
-      script(src='/js/join.js')      
+      script(src='/js/join.js')
 
 
 block content
@@ -14,19 +14,14 @@ block content
                   id='username'
                   name='username'
                   value=""
-                  placeholder='Name')
-            input(type='text'
+                  placeholder='Username')
+            input(type='password'
                   id='password'
-                  name='passwor'
-                  value='No Password Necessary')
+                  name='password'
+                  placeholder='Password')
             input(type="button"
                   id="login-button"
                   value="Go")
 
 
       append footer
-            
-            //- script
-            //-       $(document).ready(function(){
-            //-             BATTLESHIP.game.init();
-            //-       })
