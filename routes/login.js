@@ -1,5 +1,4 @@
 // Routes for /login
-
 app.get('/login', function(req, res) {
   var locals = {
     title : 'Battleship :: Login',
@@ -9,7 +8,9 @@ app.get('/login', function(req, res) {
   res.render('login.jade', locals);
 });
 
-app.post('/login', function(req, res) { 
+app.post('/login', function(req, res) {
 
 });
+
+
 
