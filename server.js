@@ -1,13 +1,17 @@
 var express = require('express'),
-  	app 	  = express(),
-  	http	  = require('http'),
-  	connect = require('connect'),
-  	io		  = require('socket.io'),
+    http    = require('http'),
+    connect = require('connect'),
+    io      = require('socket.io'),
     fs      = require('fs'),
-  	port	  = (process.env.PORT || 8081);
+    port    = (process.env.PORT || 8081);
+
+// Global - but shouldn't be 
+app = express();
+require('./routes/');
+
 
 app.set('title', 'Battleship');
-// console.log(app)
+
 // Setup Express
 app.configure(function() {
     app.set('views', __dirname + '/views');
@@ -22,16 +26,40 @@ app.configure(function() {
 
 // Version 3.x of Express needs this server param
 var server = http.createServer(app);
+var users = [];
+
+// Routes
 
 
 // Setup Socket.IO
 var io = io.listen(server);
 io.sockets.on('connection', function(socket){
+  
   console.log('Client Connected');
+
+  socket.on('joinRoom', function(name) {
+console.log('server: joining room')
+console.log(name)
+    var room = getRoomID(); // or something like this?
+    m
+    socket.name = name; 
+    socket.room = room
+    users[name] = name; 
+    socket.join(room);
+
+    // redirect to game page. 
+
+    // socket.emit('updatechat', 'SERVER', 'you have connected to room1');
+    // // echo to room 1 that a person has connected to their room
+    // socket.broadcast.to('room1').emit('updatechat', 'SERVER', username + ' has connected to this room');
+    // socket.emit('updaterooms', rooms, 'room1');
+  });
+
   socket.on('message', function(data){
     socket.broadcast.emit('server_message',data);
     socket.emit('server_message',data);
   });
+  
   socket.on('disconnect', function(){
     console.log('Client Disconnected.');
   });
@@ -40,41 +68,18 @@ io.sockets.on('connection', function(socket){
 server.listen(port);
 
 
-///////////////////////////////////////////
-//              Routes                   //
-///////////////////////////////////////////
 
-/////// ADD ALL YOUR ROUTES HERE  /////////
+// Suppose these rooms could get stored somewhere eventually?
+var rooms = []; 
 
-app.get('/', function(req, res){ 
-  var locals = {
-    title : 'Battleship :: Home',
-    description: 'This page is about Battleship and how it rocks.'
-  }
-
-  res.render('index.jade', locals);
-});
+function getRoomID() {
+  console.log('getRoomID')
 
 
-// How do we protect these pages?
-app.get('/game', function(req, res){ 
+  return id; 
+};
 
-  var locals = {
-    title : 'Battleship :: Game',
-    description: 'This page has a real Battleship game.'
-  }
-  
-  res.render('game.jade', locals);
-});
 
-app.get('/account', function(req, res){ 
-  var locals = {
-    title : 'Battleship :: Account',
-    description: 'This page has your account information for your Battleship user.'
-  }
-  
-  res.render('account.jade', locals);
-});
 
 
 /* Game API stuff */
@@ -88,7 +93,7 @@ app.post("/game/lock", function(req, res) {
   // so loop through req.body and make sure there's no missing cell nums
   for(var ship in req.body) {
     if(req.body[ship].length == 0) {
-      res.send(false);
+      res.send('false');
     }
   }
 

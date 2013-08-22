@@ -70,7 +70,9 @@ BATTLESHIP.game = {
 				revert: "invalid",
 				revertDuration: 200,
 				snap: ".droppable",
-				snapTolerance: 10
+				snapTolerance: 10,
+				//obstacle: ".ship",
+				//preventCollision: true
 				//"helper": helperFunction,
 			});
 		}

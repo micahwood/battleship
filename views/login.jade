@@ -1,0 +1,32 @@
+extends layout
+
+append head
+      script(src='./socket.io/socket.io.js')
+      script(src='/js/join.js')      
+
+
+block content
+      #content
+
+      p Type in a name and join a game!
+      form#login-form(action='/login', method='post')
+            input(type='text'
+                  id='username'
+                  name='username'
+                  value=""
+                  placeholder='Name')
+            input(type='text'
+                  id='password'
+                  name='passwor'
+                  value='No Password Necessary')
+            input(type="button"
+                  id="login-button"
+                  value="Go")
+
+
+      append footer
+            
+            //- script
+            //-       $(document).ready(function(){
+            //-             BATTLESHIP.game.init();
+            //-       })
