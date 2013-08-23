@@ -12,13 +12,6 @@ var BATTLESHIP = {
 
 
 BATTLESHIP.bindEvents = function () {
-	// Register buton
-	// Maybe registering w/ MongoDB backened?
-	$("#register").on("click", function(e){
-		alert("Coming Soon!");
-		e.preventDefault();
-	})
-
 	$('#login-button').on('click', this.login);
 	$('#registration-button').on('click', this.register);
 };
