@@ -3,6 +3,7 @@ var passport      = require('passport'),
     mongoose      = require('mongoose'),
     User          = mongoose.model('User');
 
+
 passport.use(new LocalStrategy(
   function(username, password, done) {
     var User = mongoose.model('User');
