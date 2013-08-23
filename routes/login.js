@@ -1,6 +1,6 @@
-// Routes for /login
-// 
-var passport = require('passport');
+var mongoose = require('mongoose'),
+    User = mongoose.model('User'),
+    passport = require('passport');
 
 app.get('/login', function(req, res) {
   var locals = {
@@ -14,7 +14,7 @@ app.get('/login', function(req, res) {
 app.post('/login', passport.authenticate('local', {
     successRedirect: '/account',
     failureRedirect: '/login',
-    failureFlash: true
+    failureFlash: false
   })
 );
 

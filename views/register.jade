@@ -1,0 +1,36 @@
+extends layout
+
+append head
+
+
+block content
+      #content
+
+      p Type in a name and join a game!
+      form#registration-form(action='/register', method='post')
+            input(type='text'
+                  id='username'
+                  name='user[username]'
+                  value="bryce"
+                  placeholder='Username')
+            input(type='text'
+                  id='email'
+                  name='user[email]'
+                  value='bryceahill@gmail.com'
+                  placeholder='user@example.com')
+            input(type='password'
+                  id='password'
+                  name='user[password]'
+                  value='bbb'
+                  placeholder='Password')
+            input(type='password'
+                  id='confirm_password'
+                  name='user[confirm_password]'
+                  value='bbb'
+                  placeholder='Confirm Password')
+            input(type="button"
+                  id="registration-button"
+                  value="Go")
+
+
+      append footer

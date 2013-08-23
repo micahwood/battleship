@@ -3,13 +3,13 @@ var express = require('express'),
     connect = require('connect'),
     io      = require('socket.io'),
     fs      = require('fs'),
-    passport      = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
+    mongoose = require('mongoose'),
+    passport = require('passport'),
     port    = (process.env.PORT || 8081);
 
 // Global - but shouldn't be 
 app = express();
-require('./routes/');
+
 
 app.set('title', 'Battleship');
 
@@ -28,23 +28,9 @@ app.configure(function() {
   app.use(app.router);
 });
 
+require('./config');
 
-/**
- * Setup Passport
- */
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({username: username}, function(err, user) {
-      if (err) return done(err);
-
-      if (!user || !user.validPassword(password)) {
-        return done(null, false, { message: "Incorrect username or password." });
-      }
-
-      return done(null, user);
-    });
-  }
-));
+require('./routes');
 
 // Version 3.x of Express needs this server param
 var server = http.createServer(app);

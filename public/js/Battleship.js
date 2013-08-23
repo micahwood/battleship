@@ -19,9 +19,23 @@ BATTLESHIP.bindEvents = function () {
 		e.preventDefault();
 	})
 
-	$('#login-button').on('click', this.joinGame);
+	$('#login-button').on('click', this.login);
+	$('#registration-button').on('click', this.register);
 };
 
+BATTLESHIP.register = function() {
+	// validate and return true
+	// 
+	console.log('register')
+	$('#registration-form').submit();
+	// return true;
+};
+
+BATTLESHIP.login = function() {
+	//
+	console.log('logging in');
+	$('#login-form').submit();
+};
 
 BATTLESHIP.joinGame = function() {
 console.log('joining room')
