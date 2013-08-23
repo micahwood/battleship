@@ -46,13 +46,13 @@ app.post('/register', function(req, res) {
 
 
     if (validateUserRegistration(postData)) {
-      console.log('saving user');
       var user = new User(postData);
 
       user.save(function(err, user) {
         if (err) throw err;
 
-        console.log(res)
+        // set the session first, then redirect. 
+        res.redirect('/account', {user: user.username});
       });
     } else {
       // error in here. 
