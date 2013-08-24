@@ -1,21 +1,20 @@
 var passport      = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     mongoose      = require('mongoose'),
-    User          = mongoose.model('User');
+    User          = require('../models/User');
 
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    var User = mongoose.model('User');
-
-    User.findOne({username: username}, function(err, user) {
+    User.findOne({ username: username }, function(err, user) {
       if (err) return done(err);
+      if (!user) return done(null, false, { message: "Incorrect username or password." });
 
-      if (!user || user.password !== password) {
-        return done(null, false, { message: "Incorrect username or password." });
-      }
+      user.comparePassword(password, function(err, isMatch) {
+        if (err) throw err;
 
-      return done(null, user);
+        if (isMatch) return done(null, user);
+      });
     });
   }
 ));
