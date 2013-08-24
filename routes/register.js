@@ -45,7 +45,7 @@ app.get('/register', function(req, res) {
     description: ""
   };
 
-  res.render('register.jade', locals);
+  res.render('register', locals);
 });
 
 /**
@@ -56,7 +56,7 @@ app.post('/register', function(req, res) {
 
   validateUserRegistration(postData, function(err, isValidated) {
     if (!isValidated) {
-      res.render('register.jade', {error: err});
+      res.render('register', {error: err});
     } else {
       var user = new User(postData);
 
@@ -64,7 +64,7 @@ app.post('/register', function(req, res) {
         if (err) throw err;
 
         // set the session first, then redirect. 
-        res.redirect('account.jade', {user: user.username});
+        res.redirect('account', {user: user.username});
       });
     }
   });

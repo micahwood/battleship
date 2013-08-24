@@ -9,7 +9,7 @@ app.get('/login', function(req, res) {
     description: ""
   };
 
-  res.render('login.jade', locals);
+  res.render('login', locals);
 });
 
 

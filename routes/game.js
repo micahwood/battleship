@@ -5,7 +5,7 @@ app.get('/game', function(req, res){
     description: 'This page has a real Battleship game.'
   };
 
-  res.render('game.jade', locals);
+  res.render('game', locals);
 });
 
 

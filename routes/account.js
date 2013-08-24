@@ -18,5 +18,5 @@ app.get('/account', ensureAuthenticated, function(req, res){
     user: req.user.username
   };
 
-  res.render('account.jade', locals);
+  res.render('account', locals);
 });

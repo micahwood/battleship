@@ -1,4 +1,5 @@
 var express  = require('express'),
+    exphbs   = require('express3-handlebars'),
     http     = require('http'),
     connect  = require('connect'),
     io       = require('socket.io'),
@@ -9,20 +10,21 @@ var express  = require('express'),
 
 // Global - but shouldn't be 
 app = express();
-app.set('title', 'Battleship');
 
 /*
  * Setup Express
  */ 
 app.configure(function() {
-  app.set('views', __dirname + '/views');
-  app.set('view options', { layout: false });
+  app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+  app.set('view engine', 'handlebars');
+
   app.use(connect.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'MY$UPERSECRETKEY'}));
-  app.use(connect.static(__dirname + '/public'));
   app.use(passport.initialize());
   app.use(passport.session());
+
+  app.use(connect.static(__dirname + '/public'));
   app.use(app.router);
 });
 
