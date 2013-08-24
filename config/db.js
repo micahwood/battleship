@@ -1,12 +1,14 @@
-var mongoose = require( 'mongoose' );
-var Schema   = mongoose.Schema;
+var mongoose = require('mongoose'),
+    fs       = require('fs');
 
-// Setup Models
-var User = new Schema({
-  username: String,
-  email: String,
-  password: String
+// loop through models and register them with mongoose. 
+fs.readdir('./models', function(err, files) {
+  files.forEach(function(file) {
+    var name = file.replace('.js', '');
+
+    schema = require('../models/' + file);
+    mongoose.model(name, schema);
+  });
 });
 
-mongoose.model('User', User);
 mongoose.connect('mongodb://localhost/battleship');
