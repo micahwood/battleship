@@ -3,22 +3,37 @@ var mongoose = require('mongoose'),
 
 
 // Returns true/false
+// @TODO Validate more.
 // 
 // Things this needs to do:
 //      - Make sure email and user is unique
-//      - Make sure all fields are filled out
-//      - Make sure passwords match
+//      - // Make sure all fields are filled out
+//      - // Make sure passwords match
 //      - Sanitize. 
 //      - I'm sure there are more. 
-function validateUserRegistration(userObj) {
-  // @TODO Validate more.
-  if (userObj.password !== '' || userObj.confirm_password !== '') {
-    if (userObj.password === userObj.confirm_password) {
-      return true;
+function validateUserRegistration(user, callback) {
+  var error = null,
+      isValidated = false;
+
+  for (var i in user) {
+    if (user[i] === '') {
+      error = 'Please fill in all fields.';
     }
   }
 
-  return false;
+  if (!error) {
+    User.count({username: user.username}, function(err, count){
+      if (count !== 0) {
+        error = 'That username already exists.';
+      } else if (user.password !== user.confirm_password) {
+        error = 'Password and confirmation must match.';
+      } else {
+        isValidated = true;
+      }
+    });
+  }
+
+  callback(error, isValidated);
 }
 
 /**
@@ -37,29 +52,22 @@ app.get('/register', function(req, res) {
  * 
  */
 app.post('/register', function(req, res) {
-   var postData = req.body.user;
+  var postData = req.body.user;
 
-   for (var i in postData) {
-      // something wasn't filled in @TODO this
-      if (postData[i] === '') return false;
-    }
-
-
-    if (validateUserRegistration(postData)) {
+  validateUserRegistration(postData, function(err, isValidated) {
+    if (!isValidated) {
+      res.render('register.jade', {error: err});
+    } else {
       var user = new User(postData);
 
       user.save(function(err, user) {
         if (err) throw err;
 
         // set the session first, then redirect. 
-        res.redirect('/account', {user: user.username});
+        res.redirect('account.jade', {user: user.username});
       });
-    } else {
-      // error in here. 
     }
-
-    // 4) redirect to account page v
-  }
-);
+  });
+});
 
 
