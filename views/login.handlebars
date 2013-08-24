@@ -5,10 +5,22 @@
 
 <div id='content'>      
   <p>Login in and join a game!</p>
-
-  <form id='login-form' action='/login' method='post'>
-    <input type='text' id='username' name='username' value="" placeholder='Username' />
-    <input type='password' id='password' name='password' placeholder='Password' />
-    <input type="button" id="login-button" value="Go" />
+  <div class='error'>{{error}}</div>
+  <form id='login-form' class='form-horizontal' action='/login' method='post'>
+    <div class='control-group'>
+      <label class='control-label' for='username'>Username: </label>
+      <div class='controls'>
+        <input type='text' id='username' name='username' value="" placeholder='Username' />
+      </div>
+    </div>
+    <div class='control-group'>
+      <label class='control-label' for='password'>Password: </label>
+      <div class='controls'>
+        <input type='password' id='password' name='password' placeholder='Password' />
+      </div>
+    </div>
+    <div class='controls'>
+      <input type="button" id="login-button" value="Login" />
+    </div>
   </form>
 </div>

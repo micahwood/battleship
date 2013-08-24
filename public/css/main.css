@@ -1,5 +1,6 @@
 body {
 	font-family: Helvetica, Arial, Sans-Serif;
+	font-weight: lighter;
 	background-color: #333333;
 	color: #FFFFFF;
 	font-size: 16px;
@@ -20,15 +21,38 @@ a {
 	width: 1380px;
 }
 
+header {
+	padding: 15px;
+}
+
 header h1 {
 	font-size: 54px;
 	margin: 0;
 }
 
+h1 a {
+	text-decoration: none;
+	color: #fff;
+}
+
+h1 a:hover {
+	text-decoration: none;
+	color: #fff;
+}
+
 .sub-heading {
-	font-size: 20px;
+	font-size: 19px;
+	color: #f4d40f;
 	letter-spacing: 1px;
 	font-weight: lighter;
+	position: relative;
+	left: 5px;
+}
+
+/* Form Styles */
+
+.form-horizontal .control-group {
+	margin-bottom: 10px;
 }
 
 /* Game Boards */
