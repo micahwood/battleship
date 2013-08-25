@@ -16,7 +16,7 @@ app.get('/login', function(req, res) {
 app.post('/login', passport.authenticate('local', {
     successRedirect: '/account',
     failureRedirect: '/login',
-    failureFlash: false
+    // failureFlash: true
   })
 );
 

@@ -4,6 +4,7 @@
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
+  console.log('ensure authenticated')
   if (req.isAuthenticated()) return next(); // move to next callback. 
 
   res.redirect('/login');

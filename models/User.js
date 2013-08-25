@@ -37,3 +37,5 @@ User.methods.comparePassword = function(newPassword, callback) {
     callback(null, isMatch);
   });
 };
+
+module.exports = mongoose.model('User', User);
