@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 // @TODO Validate more.
 // 
 // Things this needs to do:
-//      - Make sure email and user is unique
+//      - // Make sure email and user is unique
 //      - // Make sure all fields are filled out
 //      - // Make sure passwords match
 //      - Sanitize. 
@@ -21,17 +21,24 @@ function validateUserRegistration(user, callback) {
     }
   }
 
+  // This could use some flow control. 
   if (!error) {
     User.count({username: user.username}, function(err, count){
       if (count !== 0) {
-        error = 'That username already exists.';
-      } else if (user.password !== user.confirm_password) {
-        error = 'Password and confirmation must match.';
+        callback('That username already exists.', false);
       } else {
-        isValidated = true;
-      }
+        User.count({email: user.email}, function(err, count){
+          if (count !== 0) {
+            error = 'That email address already exists.';
+          } else if (user.password !== user.confirm_password) {
+            error = 'Password and confirmation must match.';
+          } else {
+            isValidated = true;
+          }
 
-      callback(error, isValidated);
+          callback(error, isValidated);
+        });
+      }
     });
   }
 }
