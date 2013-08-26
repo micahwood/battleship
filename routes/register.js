@@ -30,10 +30,10 @@ function validateUserRegistration(user, callback) {
       } else {
         isValidated = true;
       }
+
+      callback(error, isValidated);
     });
   }
-
-  callback(error, isValidated);
 }
 
 /**
@@ -62,7 +62,6 @@ app.post('/register', function(req, res) {
 
       user.save(function(err, user) {
         if (err) throw err;
-
         // set the session first, then redirect. 
         res.redirect('account', {user: user.username});
       });

@@ -73,6 +73,7 @@ h1 a:hover {
 .error {
 	color: #ea184e;
 	font-weight: lighter;
+	margin-left: 10px;
 }
 
 .row {
