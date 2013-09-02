@@ -3,14 +3,12 @@
 //   the request is authenticated (typically via a persistent login session),
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
-function ensureAuthenticated(req, res, next) {
+var ensureAuthenticated = function(req, res, next) {
   console.log('ensure authenticated')
   if (req.isAuthenticated()) return next(); // move to next callback. 
 
   res.redirect('/login');
 }
-
-
 
 app.get('/account', ensureAuthenticated, function(req, res){
   var locals = {
@@ -21,3 +19,5 @@ app.get('/account', ensureAuthenticated, function(req, res){
 
   res.render('account', locals);
 });
+
+exports.auth = ensureAuthenticated;
