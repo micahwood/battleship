@@ -1,12 +1,15 @@
-//var socket = io.connect();
-
-
+var socket = io.connect('http://tiltjuice.com:8081/join');
 
 // on connection to server, ask for user's name with an anonymous callback
-// socket.on('connect', function(){
+socket.on('connect', function(){
 //     // call the server-side function 'adduser' and send one parameter (value of prompt)
-//     socket.emit('joinRoom', prompt("What's your name?"));
-// });
+  socket.emit('addUser', document.querySelector('#user').innerHTML);
+});
+  socket.on('gameStart', function(opponent) {
+    var text = document.querySelector('#progress');
+    text.innerHTML = 'Good news! We found you an opponent. You will be ' 
+      + 'playing against ' + opponent;
+  });
 
 // socket.on('updateRoom', function(name, data) {
 

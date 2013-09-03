@@ -39,15 +39,31 @@ server.listen(port);
 
 
 
-//var users = [];
-
-
+var users = {};
+//too lazy to loop through users object to get a count
+var count = 0;
 
 // // Setup Socket.IO
-// var io = io.listen(server);
-// io.sockets.on('connection', function(socket){
-  
-//   console.log('Client Connected');
+var io = io.listen(server);
+var join = io.of('/join')
+  .on('connection', function(socket){
+    console.log('Client Connected');
+
+  socket.on('addUser', function(user){
+    count++;
+    socket.me = user;
+    console.log(user);
+
+    if (count >= 2) {
+      opponent = '';
+      for (player in users) {
+        opponent = player;
+      }
+      socket.emit("gameStart", opponent);
+      socket.broadcast.emit("gameStart", socket.me);
+    }
+    users[user] = user;
+  });
 
 //   socket.on('joinRoom', function(name) {
 // console.log('server: joining room')
@@ -72,10 +88,12 @@ server.listen(port);
 //     socket.emit('server_message',data);
 //   });
   
-//   socket.on('disconnect', function(){
-//     console.log('Client Disconnected.');
-//   });
-// });
+  socket.on('disconnect', function(){
+    console.log('Client Disconnected.');
+    delete users[socket.me];
+    count--;
+  });
+});
 
 
 
