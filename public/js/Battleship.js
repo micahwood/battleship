@@ -3,23 +3,24 @@
 
 
 var BATTLESHIP = {
-	"init": function() {
+	init: function() {
 		this.bindEvents();
 	}
 };
 
 
-
+var socket;
 
 BATTLESHIP.bindEvents = function () {
 	$('#login-button').on('click', this.login);
 	$('#registration-button').on('click', this.register);
+	$('#joinGame').on('click', this.joinGame);
 };
 
 BATTLESHIP.register = function() {
 	// validate and return true
 	// 
-	console.log('register')
+	// console.log('register')
 	$('#registration-form').submit();
 	// return true;
 };
@@ -30,22 +31,24 @@ BATTLESHIP.login = function() {
 	$('#login-form').submit();
 };
 
-BATTLESHIP.joinGame = function() {
-console.log('joining room')
-	var socket = io.connect();
+BATTLESHIP.joinGame = function(e) {
+	var socket = io.connect('http://localhost:8081/join'),
+			loader = $('<img>').attr('src', '../images/loader.gif');
 
+	$('.actions').html(loader);
 
-	// this iwll need to change, to like a UID or something
-	var name = $("#username").val();
-
-	// So we connected to the server, 
 	socket.on('connect', function() {
-	    socket.emit('joinRoom', name);
-	})
+		console.log('client connecting');
+		socket.emit('addUser', $('.username').text());
+	});
 
-	// socket.on('message', function(data) {
-	//     console.log("incoming: "+ data);
-	// })
+	socket.on('gameStart', function(opponent) {
+		$('.actions').text('Good news! We found you an opponent. You will be playing against ' + opponent);
+
+		//socket.emit('joinGame');
+	});
+
+	e.preventDefault();
 };
 
 
