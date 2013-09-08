@@ -17,28 +17,20 @@ var mongoose = require('mongoose'),
 // });
 
 var Game = new Schema({
-  user1: [{
+  gid: String,
+  users: [{
     username: String,
     shipPositions: [{
-      carrier: Array,
-      battleship: Array,
-      sub: Array,
-      destroyer: Array,
-      patrol: Array
+      carrier: { type: Array, default: [] },
+      battleship: { type: Array, default: [] },
+      sub: { type: Array, default: [] },
+      destroyer: { type: Array, default: [] },
+      patrol: { type: Array, default: [] }
     }]
   }],
+  status: { type: String, default: 'open' }
 
-  user2: [{
-    username: String,
-    shipPositions: [{
-      carrier: Array,
-      battleship: Array,
-      sub: Array,
-      destroyer: Array,
-      patrol: Array
-    }]
-  }]
-});
+}, { _id: false });
 
 //need:
 //Game.methods.find
