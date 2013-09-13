@@ -33,7 +33,6 @@ BATTLESHIP.login = function() {
 
 BATTLESHIP.joinGame = function(e) {
 	var self = this,
-			//socket = io.connect('http://localhost:8081/join'),
 			loader = $('<img>').attr('src', '../images/loader.gif');
 
 	// First, check whether there are any games open. 
@@ -43,10 +42,13 @@ BATTLESHIP.joinGame = function(e) {
 		success: function(json) {
 			// We found an open game, let's join it!
 			console.log('success');
-			console.log(json);
+			console.dir(json);
 
-			self.sendToGame(json.gid);
-
+			// var json = JSON.parse(data);
+			if (json.hasOwnProperty('gid')) {
+				self.addUserToGame(json.gid, $('.username').text());
+				self.sendToGame(json.gid);
+			}
 		},
 		error: function(jqxhr, text, status) {
 
@@ -67,17 +69,6 @@ BATTLESHIP.joinGame = function(e) {
 
 	});
 	$('.actions').html(loader);
-
-	// socket.on('connect', function() {
-	// 	console.log('client connecting');
-	// 	socket.emit('addUser', $('.username').text());
-	// });
-
-	// socket.on('gameStart', function(opponent) {
-	// 	$('.actions').text('Good news! We found you an opponent. You will be playing against ' + opponent);
-
-	// 	//socket.emit('joinGame');
-	// });
 
 	e.preventDefault();
 };
@@ -109,11 +100,11 @@ BATTLESHIP.createGame = function(user) {
 
 // Adds another user to an existing game. 
 BATTLESHIP.addUserToGame = function(gid, user) {
-	var self = this; 
+	var self = this;
 
 	$.ajax({
 		url: '/game/' + gid,
-		type: 'put',
+		type: 'post',
 		data: { user: user },
 		success: function(json) {
 			//self.sendToGame(json.gid);

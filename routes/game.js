@@ -16,10 +16,9 @@ app.get('/game', account.auth, function(req, res) {
   }
 
   status = params.status;
-  Game.find({ status: status }, function(err, game) {
-    console.log('found: ' + game);
+  Game.findOne({ status: status }, function(err, game) {
     if (!_.isEmpty(game)) {
-      res.json(200, { gid: game.gid });
+      res.json(200, game);
     } else {
       res.json(404, { error: 'No game found with a status of: ' + status });
     }
@@ -48,6 +47,27 @@ app.post('/game', account.auth, function(req, res) {
   game.save(function(err) {
     if (err) return err; //??
     res.json(201, {gid: id});
+  });
+});
+
+
+// This probably should be a put?
+app.post('/game/:id', account.auth, function(req, res) {
+  // Validate!
+  var user = req.body.user,
+      gid = req.params.id;
+
+  Game.findOne({gid: gid}, function(err, game) {
+    if (err) return err;
+
+    game.users.push({ username: user });
+    game.status = 'closed';
+    game.save();
+        res.send(200);
+    //   } else {
+    //     res.send(500);
+    //   }
+    // });
   });
 });
 
