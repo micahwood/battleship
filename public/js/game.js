@@ -3,6 +3,7 @@ var BATTLESHIP = BATTLESHIP || {};
 BATTLESHIP.game = {
 
 	init: function(){
+		this.initSockets();
 		this.bindEvents();
 	},
 
@@ -38,7 +39,23 @@ BATTLESHIP.game = {
 			"orientation": "horizontal",
 			"spaces": 2,
 			"cell_nums": []
-		},
+		}
+	},
+
+
+	initSockets: function() {
+		var socket = io.connect('http://localhost:8081/join');
+
+		socket.on('connect', function() {
+			console.log('client connecting');
+			socket.emit('addUser', $('.username').text());
+		});
+
+		socket.on('gameStart', function(opponent) {
+			$('.actions').text('Good news! We found you an opponent. You will be playing against ' + opponent);
+
+		//socket.emit('joinGame');
+		});
 	},
 
 
