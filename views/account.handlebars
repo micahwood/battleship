@@ -3,6 +3,15 @@
   <a href="/logout">Logout</a>
 
   <div class='actions'>
-    <a id='joinGame' class="button" href="#">Join a game</a>
+    {{#if game}}
+      <h4>Active Games:</h4>
+      <ul class='games'>
+        {{#each game}}
+          <li><a href='/game/{{gid}}'>{{gid}}a</a></li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <a id='joinGame' class="button" href="#">Join a game</a>
+    {{/if}}
   </div>
 </div>
