@@ -1,7 +1,5 @@
 var account = require('./account'),
-    // mongoose = require('mongoose'),
     Game = require('../models/Game'),
-    // crypto = require('crypto'),
     _ = require('underscore');
 
 // Gets a game with the passed in status property. 
@@ -91,7 +89,7 @@ function createId() {
   var text = "",
       possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-  for (var i=0; i < 16; i++) {
+  for (var i = 0; i < 16; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
 
