@@ -6,11 +6,11 @@ var Game = require('../models/Game');
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 var ensureAuthenticated = function(req, res, next) {
-  console.log('ensure authenticated')
+  // console.log('ensure authenticated');
   if (req.isAuthenticated()) return next(); // move to next callback. 
 
   res.redirect('/login');
-}
+};
 
 app.get('/account', ensureAuthenticated, function(req, res){
   var user = req.user.username;
