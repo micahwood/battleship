@@ -51,7 +51,7 @@ app.post('/game', account.auth, function(req, res) {
 });
 
 
-// This probably should be a put?
+// This probably should be a put? Used to find the gid and add a user to it. 
 app.post('/game/:id', account.auth, function(req, res) {
   // Validate!
   var user = req.body.user,
@@ -60,14 +60,20 @@ app.post('/game/:id', account.auth, function(req, res) {
   Game.findOne({gid: gid}, function(err, game) {
     if (err) return err;
 
-    game.users.push({ username: user });
-    game.status = 'closed';
-    game.save();
-        res.send(200);
-    //   } else {
-    //     res.send(500);
-    //   }
-    // });
+    if (game.status == 'open') {
+      game.users.push({ username: user });
+      game.status = 'closed';
+      game.save(function(err) {
+        if (err) {
+          console.error('Error saving game: ' + game + 'ERROR: ' + err);
+        } else {
+          // socket.join(gid);
+          res.json(200, game);
+        }
+      });
+    } else {
+      // Someone got here before us. 
+    }
   });
 });
 
@@ -78,7 +84,9 @@ app.get('/game/:id', account.auth, function(req, res){
   var locals = {
     title : 'Battleship :: Game',
     description: 'This page has a real Battleship game.',
-    layout: 'game'
+    layout: 'game',
+    gid: req.params.id,
+    user: req.user.username
   };
 
   res.render('game', locals);
