@@ -2,36 +2,26 @@ var mongoose = require('mongoose'),
     Schema   = mongoose.Schema;
 
 
-// Could eventually use sub-documents, but I'm not sure if there is a benefit at this time.
-// var shipPositons = new Schema({
-//   carrier: Array,
-//   battleship: Array,
-//   sub: Array,
-//   destroyer: Array,
-//   patrol: Array
-// });
+var shipPositons = new Schema({
+  carrier: String,
+  battleship: String,
+  sub: String,
+  destroyer: String,
+  patrol: String
+});
 
-// var participant = new Schema({
-//   username: {type: String},
-//   shipPositions: [shipPositons]
-// });
+var user = new Schema({
+  username: String,
+  shipPositions: [shipPositons]
+});
 
 var Game = new Schema({
   gid: String,
-  users: [{
-    username: String,
-    shipPositions: [{
-      carrier: { type: Array, default: [] },
-      battleship: { type: Array, default: [] },
-      sub: { type: Array, default: [] },
-      destroyer: { type: Array, default: [] },
-      patrol: { type: Array, default: [] }
-    }]
-  }],
+  users: [user],
   status: { type: String, default: 'open' }
 
 }, { _id: false });
 
 //need:
-//Game.methods.find
+//Game.methods.find ?
 module.exports = mongoose.model('Game', Game);
