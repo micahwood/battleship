@@ -2,7 +2,14 @@ var BATTLESHIP = BATTLESHIP || {};
 
 BATTLESHIP.game = {
 
-	init: function(){
+	/**
+	 * init: Sets up the JS stuff needed for the game page
+	 * @param  {[Game object]} game An instance of a game object. 
+	 */
+	init: function(game){
+		this.game = game;
+		this.gid = game.getGid();
+		this.user = game.getUser();
 		this.initSockets();
 		this.bindEvents();
 	},
@@ -44,17 +51,20 @@ BATTLESHIP.game = {
 
 
 	initSockets: function() {
-		var socket = io.connect('http://localhost:8081/join');
+		var self = this,
+				socket = io.connect('http://localhost:8081');
 
 		socket.on('connect', function() {
 			console.log('client connecting');
-			socket.emit('addUser', $('.username').text());
+			socket.emit('joinGame', {
+				gid: self.gid,
+				username: self.user
+			});
 		});
 
 		socket.on('gameStart', function(opponent) {
 			$('.actions').text('Good news! We found you an opponent. You will be playing against ' + opponent);
 
-		//socket.emit('joinGame');
 		});
 	},
 
@@ -266,7 +276,7 @@ BATTLESHIP.game = {
 						square.droppable({ drop: $.proxy(that.handleDrop, that) })
 							  .addClass("hovered")
 							  .addClass("droppable");
-					} 
+					}
 					else {
 						square.removeClass("hovered");
 					}
@@ -295,7 +305,7 @@ BATTLESHIP.game = {
 		}
 
 		this.resetPieces();
-		this.repaintBoard();		
+		this.repaintBoard();
 	},
 
 	// Reset the pieces cell_nums - called when they're docked again. 
