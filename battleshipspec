@@ -1,0 +1,17 @@
+user enters site and can choose to sign in or register
+	if user has an account they click sign in and are presented with the login form
+		after entering their user name and password they are taken to their account page
+			account page shows information like games in progress and w/l ratio
+			user can click on create game to start new game or click on an existing game to continue that one
+		user clicks on new game
+			a game-id is created, likely using the primary key
+			the user is then taken to their board where they can set up their pieces
+			there will be a ready button that validates that all pieces have been placed
+			clicking this button will toggle their ready state
+			when another user is found their name will appear in a sidebar along with their status (ready - not ready)
+
+	user does not have an account so they click register
+		registration form is displayed and they enter their information
+			validation is performed to ensure a unique username and email address
+			validation is performed to ensure passwords match (should we just have a show password toggle option instead of a confirm field?)
+			after succesful registration they are taken to their account page.
