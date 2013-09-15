@@ -34,7 +34,16 @@
   <script src='../js/libs/jquery-ui-1.10.2.custom.js'></script>
   <script src="../socket.io/socket.io.js"></script>
   <script src='../js/Battleship.js'></script>
+  <script src='../js/models/Game.js'></script>
+  <script src='../js/models/User.js'></script>
+  <script src='../js/game.js'></script>
   <script src='../js/init.js'></script>
+  <script>
+    var game = new Game('{{gid}}');
+    game.addUser('{{user}}');
+
+    BATTLESHIP.game.init(game);
+  </script>
   <script src='../js/libs/jquery-collision.min.js'></script>
   <script src='../js/libs/jquery-ui-draggable-collision.js'></script>
 </body>

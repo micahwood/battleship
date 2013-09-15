@@ -9,8 +9,6 @@ var BATTLESHIP = {
 };
 
 
-var socket;
-
 BATTLESHIP.bindEvents = function () {
 	$('#login-button').on('click', this.login);
 	$('#registration-button').on('click', this.register);
@@ -27,9 +25,10 @@ BATTLESHIP.register = function() {
 
 BATTLESHIP.login = function() {
 	//
-	console.log('logging in');
 	$('#login-form').submit();
 };
+
+/* Game functions below. These should be added to BATTLESIHP.game.method() */
 
 BATTLESHIP.joinGame = function(e) {
 	var self = this,
@@ -41,13 +40,8 @@ BATTLESHIP.joinGame = function(e) {
 		data: { status: 'open' },
 		success: function(json) {
 			// We found an open game, let's join it!
-			console.log('success');
-			console.dir(json);
-
-			// var json = JSON.parse(data);
 			if (json.hasOwnProperty('gid')) {
 				self.addUserToGame(json.gid, $('.username').text());
-				self.sendToGame(json.gid);
 			}
 		},
 		error: function(jqxhr, text, status) {
@@ -80,14 +74,15 @@ BATTLESHIP.sendToGame = function(gid) {
 
 
 // Sends AJAX request to create a new game. 
-BATTLESHIP.createGame = function(user) {
-	var self = this; 
+BATTLESHIP.createGame = function(username) {
+	var self = this;
 
 	$.ajax({
 		url: '/game',
 		type: 'post',
-		data: { user: user },
+		data: { user: username },
 		success: function(json) {
+			// self.joinSocketRoom({ room: json.gid, username: username });
 			self.sendToGame(json.gid);
 		},
 		error: function(data) {
@@ -99,20 +94,29 @@ BATTLESHIP.createGame = function(user) {
 
 
 // Adds another user to an existing game. 
-BATTLESHIP.addUserToGame = function(gid, user) {
-	var self = this;
+BATTLESHIP.addUserToGame = function(gid, username) {
+	var self = this,
+			socket;
 
 	$.ajax({
 		url: '/game/' + gid,
 		type: 'post',
-		data: { user: user },
+		data: { user: username },
 		success: function(json) {
-			//self.sendToGame(json.gid);
+			// connect this guy to the socket and send them to the game. 
+			// 
+			// self.joinSocketRoom({ room: json.gid, username: username });
+			self.sendToGame(json.gid);
 		},
 		error: function(data) {
-			console.log('errored adding user to game. ');
-			//console.log(data);
+			console.error('errored adding user to game. ');
 		}
 	});
+};
+
+
+BATTLESHIP.joinSocketRoom = function(data) {
+	var socket = io.connect('http://localhost:8081');
+	socket.emit('joinGame', data);
 };
 
