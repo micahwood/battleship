@@ -57,17 +57,14 @@ h1 a:hover {
 
 /* Game Boards */
 .board {
-	width: 660px;
-	height: 660px;
+	width: 463px;
+	height: 463px;
 	background-color: #3aaab5;
 }
 
-#my-board {
+.board-container{
 	float: left;
-}
-
-#their-board {
-	float:right;
+	margin: 0 20px 20px 0;
 }
 
 .error {
@@ -77,7 +74,7 @@ h1 a:hover {
 }
 
 .row {
-	height: 58px;
+	height: 40px;
 	width: 100%;
 	border: 1px solid black;
 	margin: 0px;
@@ -86,8 +83,8 @@ h1 a:hover {
 .cell {
 	border-left: 1px solid black;
 	border-right: 1px solid black;
-	height: 58px; /* The parent .row has a 1px border */
-	width: 58px;
+	height: 100%; /* The parent .row has a 1px border */
+	width: 40px;
 	float: left;
 	color: rgb(17, 150, 162);
 	font-size: 36px;
@@ -114,7 +111,7 @@ h1 a:hover {
 }
 
 .dock {
-	height: 60px;
+	height: 42px;
 	border: 2px dashed #FFFFFF;
 	padding: 2px;
 	margin: 5px 50px 5px 0;
@@ -127,7 +124,7 @@ h1 a:hover {
 }
 
 .ship {
-	height: 58px;
+	height: 40px;
 	background-color: #66676d;
 	border: 1px solid #000000;
 	display: block;
