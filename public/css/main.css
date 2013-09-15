@@ -101,7 +101,7 @@ h1 a:hover {
 
 #my-pieces {
 	float: left;
-	width: 660px;
+	width: 500px;
 	height: 280px;
 }
 
@@ -132,17 +132,17 @@ h1 a:hover {
 }
 
 .carrier {
-	width: 298px;
+	width: 200px;
 }
 .battleship {
-	width: 240px;
+	width: 160px;
 }
 .sub {
-	width: 180px;
+	width: 120px;
 }
 .destroyer {
-	width: 180px;
+	width: 120px;
 }
 .patrol {
-	width: 120px;
+	width: 80px;
 }
