@@ -62,6 +62,11 @@ h1 a:hover {
 	background-color: #3aaab5;
 }
 
+.waiting {
+	/*opacity: 0.5;*/
+	-webkit-filter: blur(3px);
+}
+
 .board-container{
 	float: left;
 	margin: 0 20px 20px 0;
@@ -132,17 +137,17 @@ h1 a:hover {
 }
 
 .carrier {
-	width: 200px;
+	width: 208px;
 }
 .battleship {
-	width: 160px;
+	width: 166px;
 }
 .sub {
-	width: 120px;
+	width: 122px;
 }
 .destroyer {
-	width: 120px;
+	width: 124px;
 }
 .patrol {
-	width: 80px;
+	width: 82px;
 }
