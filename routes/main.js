@@ -4,5 +4,5 @@ app.get('/', function(req, res){
     description: 'This page is about Battleship and how it rocks.'
   };
 
-  res.render('index', locals);
+  res.render('main.jade', locals);
 });

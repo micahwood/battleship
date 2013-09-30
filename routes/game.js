@@ -26,15 +26,14 @@ app.get('/game', account.auth, function(req, res) {
 });
 
 
-// Creates a game document with the provided user. 
+// Creates a new game document with the provided user. 
 app.post('/game', account.auth, function(req, res) {
-  var params = req.body,
-      id, user;
+  var id, user;
 
-  if (!params.hasOwnProperty('user')) {
+  if (!req.body.hasOwnProperty('user')) {
     res.json(400, 'You must provide a valid user property');
   }
-  user = params.user;
+  user = req.body.user;
   id = createId();
 
   var game = new Game({
@@ -51,7 +50,7 @@ app.post('/game', account.auth, function(req, res) {
 });
 
 
-// This probably should be a put? Used to find the gid and add a user to it. 
+// This probably should be a put? Used to find the gid and add another user to it.
 app.post('/game/:id', account.auth, function(req, res) {
   // Validate!
   var user = req.body.user,

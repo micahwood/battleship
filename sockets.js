@@ -15,9 +15,9 @@ module.exports.listen = function(app) {
       socket.room = room;
       socket.user = user;
       socket.join(room);
-
-      //   // redirect to game page. 
-      io.sockets.clients(room);
+      // socket.emit('opponentAdded');
+      // io.sockets.clients(room);
+      console.log(io.sockets.clients())
     });
 
     socket.on('disconnect', function(){

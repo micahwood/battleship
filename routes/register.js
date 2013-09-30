@@ -46,31 +46,19 @@ function validateUserRegistration(user, callback) {
 /**
  * 
  */
-app.get('/register', function(req, res) {
-  var locals = {
-    title : 'Battleship :: Register',
-    description: ""
-  };
-
-  res.render('register', locals);
-});
-
-/**
- * 
- */
 app.post('/register', function(req, res) {
   var postData = req.body.user;
 
   validateUserRegistration(postData, function(err, isValidated) {
     if (!isValidated) {
-      res.render('register', {error: err});
+      res.json(400, err);
     } else {
       var user = new User(postData);
 
       user.save(function(err, user) {
         if (err) throw err;
         // set the session first, then redirect. 
-        res.redirect('account', {user: user.username});
+        res.json(200, user);
       });
     }
   });

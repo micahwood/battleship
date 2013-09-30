@@ -1,22 +1,12 @@
-var mongoose = require('mongoose'),
-    passport = require('passport');
+var passport = require('passport');
 
-
-app.get('/login', function(req, res) {
-  var locals = {
-    title : 'Battleship :: Login',
-    description: ""
-  };
-
-  res.render('login', locals);
+// Just for testing:
+app.get('/loggedin', function(req, res) {
+  res.send(req.isAuthenticated() ? req.user : '0');
 });
 
-
-app.post('/login', passport.authenticate('local', {
-    successRedirect: '/account',
-    failureRedirect: '/login',
-    // failureFlash: true
-  })
-);
+app.post('/login', passport.authenticate('local'), function(req, res) {
+  res.json(200, req.user);
+});
 
 

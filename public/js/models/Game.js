@@ -1,16 +1,22 @@
-function Game(gid) {
-  this.user = '';
-  this.gid = gid; 
-}
+define([
+  'jquery',
+  'underscore',
+  'backbone'
+], function($, _, Backbone) {
 
-Game.prototype.getGid = function() {
-  return this.gid; 
-};
+  var Game = Backbone.Model.extend({
+    initialize: function(gid) {
+      //constructor kinda
+      //// Check if we're still waiting?
+    },
 
-Game.prototype.getUser = function() {
-  return this.user;
-};
+    defaults: {
+      gid: '',
+      users: [],
+      // Are we still waiting for an opponent?
+      locked: true
+    }
+  });
 
-Game.prototype.addUser = function(user) {
-  this.user = user;
-};
+  return Game;
+});

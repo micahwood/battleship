@@ -12,13 +12,11 @@ var express  = require('express'),
 app = express();
 var server = http.createServer(app);
 
+
 /*
  * Setup Express
  */
 app.configure(function() {
-  app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
-  app.set('view engine', 'handlebars');
-
   app.use(connect.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'MY$UPERSECRETKEY'}));
@@ -39,6 +37,6 @@ app.use(function(err, req, res, next) {
 });
 
 socketio.listen(server);
-
 server.listen(port);
+
 console.log('Listening on port ' + port );

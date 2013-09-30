@@ -7,9 +7,11 @@ var Game = require('../models/Game');
 //   login page.
 var ensureAuthenticated = function(req, res, next) {
   // console.log('ensure authenticated');
-  if (req.isAuthenticated()) return next(); // move to next callback. 
-
-  res.redirect('/login');
+  if (!req.isAuthenticated()) {
+    res.json(401);
+  } else {
+    next(); // move to next callback. 
+  }
 };
 
 app.get('/account', ensureAuthenticated, function(req, res){
