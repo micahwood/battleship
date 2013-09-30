@@ -15,8 +15,6 @@ define([
     el: '.container',
 
     initialize: function () {
-      console.log('init app view')
-      console.log(this.model)
       if (this.model) {
         window.Battleship.currentUser = this.model;
         this.loggedIn = this.model ? this.model.isLoggedIn() : false;

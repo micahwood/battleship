@@ -20,9 +20,7 @@ define([
     },
 
     home: function() {
-      console.log('in home route');
-      var session = Battleship.session,// || new Session(),
-          view;
+      // console.log('in home route');
       
       if(!this.view) {
         this.view = new ApplicationView({ model: new User() });
@@ -40,17 +38,6 @@ define([
     login: function () {
       var view = new LoginView();
       view.render();
-    },
-
-    showAccount: function(username) {
-      var user = new User({ username: username });
-          
-        console.log('route show account')
-      // var view = new AccountView({ 
-      //   model: new User(username) 
-      // });
-
-      // view.render();
     }
   });
 
@@ -60,12 +47,13 @@ define([
         router = new Router(),
         session = Battleship.session = new Session();
 
+
 // console.log('init app....session:')
 // console.dir(Battleship.session);
     if (session.isAuthenticated()) {
       // redirect to user page
       console.log('is AUTHED');
-      // Battleship.currentUser = new User(Battleship.currentUser.toJSON()); 
+      // Battleship.currentUser = new User(session.toJSON()); 
     } else {
       console.log('is not authed');
       var view = new ApplicationView({model: new User() }).render();
