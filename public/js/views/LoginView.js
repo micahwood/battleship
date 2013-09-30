@@ -30,7 +30,7 @@ define([
       var form = $(this.form),
           session = Battleship.session;
 
-      session.destroy.call(session);//();
+      session.destroy();
       $('.error').text();
 
       $.ajax({

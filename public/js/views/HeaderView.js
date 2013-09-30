@@ -32,9 +32,6 @@ define([
         type: 'post',
         success: function(data) {
           Battleship.session.destroy();
-          // self.model.clear();
-          // // self.showLogoutButton = false; 
-          // // self.render(); 
           window.location.replace('/');
         }
       });
