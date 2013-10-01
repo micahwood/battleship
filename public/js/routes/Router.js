@@ -51,7 +51,8 @@ define([
 // console.log('init app....session:')
 // console.dir(Battleship.session);
     if (session.isAuthenticated()) {
-      // redirect to user page
+      // redirect to user page? IDK
+      // @TODO allow user to login after refresh. 
       console.log('is AUTHED');
       // Battleship.currentUser = new User(session.toJSON()); 
     } else {

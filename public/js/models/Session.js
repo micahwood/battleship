@@ -36,7 +36,7 @@ define([
     },
 
     destroy: function() {
-      this.clear();
+      // this.clear();
       return $.removeCookie('username') && $.removeCookie('sid') && $.removeCookie('email');
     }
   });
