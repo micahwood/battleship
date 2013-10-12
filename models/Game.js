@@ -20,7 +20,7 @@ var Game = new Schema({
   users: [user],
   status: { type: String, default: 'open' }
 
-}, { _id: false });
+});
 
 //need:
 //Game.methods.find ?

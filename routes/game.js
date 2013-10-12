@@ -1,5 +1,6 @@
 var account = require('./account'),
     Game = require('../models/Game'),
+    User = require('../models/User'),
     _ = require('underscore');
 
 // Gets a game with the passed in status property. 
@@ -25,27 +26,47 @@ app.get('/game', account.auth, function(req, res) {
   });
 });
 
+// Gets a game with the passed in gid.
+app.get('/game/:gid', account.auth, function(req, res) {
+  var gid = req.params.gid;
+});
 
 // Creates a new game document with the provided user. 
 app.post('/game', account.auth, function(req, res) {
-  var id, user;
+  var gid, username;
 
-  if (!req.body.hasOwnProperty('user')) {
-    res.json(400, 'You must provide a valid user property');
+  if (!req.body.hasOwnProperty('username')) {
+    res.json(400, 'You must provide a valid username property');
   }
-  user = req.body.user;
-  id = createId();
+  username = req.body.username;
+  gid = createId();
 
-  var game = new Game({
-    gid: id,
-    users: [{
-      username: user
-    }]
-  });
+  var game = new Game({ gid: gid });
+  game.users.push({ username: username });
 
   game.save(function(err) {
-    if (err) return err; //??
-    res.json(201, {gid: id});
+    if (err) {
+      console.error(err);
+      return err; //??
+    }
+
+    // @TODO convert this to using events
+    User.findOne({ username: username }, function(err, user) {
+      if (err) {
+        console.error(err);
+        return err; //??
+      }
+
+      user.games.push({ gid: gid, opponent: '' });
+      user.save(function(err) {
+        if (err) {
+          console.error(err);
+          return err; //??
+        }
+
+        res.json(201, {gid: gid});
+      });
+    });
   });
 });
 
