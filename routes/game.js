@@ -3,25 +3,26 @@ var account = require('./account'),
     User = require('../models/User'),
     _ = require('underscore');
 
-// Gets a game with the passed in status property. 
+// Gets a game with the passed in locked property. 
 app.get('/game', account.auth, function(req, res) {
   var params = req.query,
-      status, gid, msg;
+      locked = !params.locked,
+      gid, msg;
 
-  if (!params.hasOwnProperty('status')) {
-    res.json(400, { error: 'You must pass in a status property' });
+  if (!params.hasOwnProperty('locked')) {
+    res.json(400, { error: 'You must pass in a locked property' });
   }
 
-  if (params.status !== 'open' && params.status !== 'closed') {
-    res.json(400, { error: 'Invalid status property. Please pass in \'open\' or \'closed\'' });
+  if (locked !== false && locked !== true) {
+    res.json(400, { error: 'Invalid locked property. Please pass in \'true\' or \'false\'' });
   }
 
-  status = params.status;
-  Game.findOne({ status: status }, function(err, game) {
+  Game.findOne({ locked: locked }, function(err, game) {
+    console.log('found: '+ game)
     if (!_.isEmpty(game)) {
       res.json(200, game);
     } else {
-      res.json(404, { error: 'No game found with a status of: ' + status });
+      res.json(404, { error: 'No game found with a locked of: ' + locked });
     }
   });
 });
@@ -29,6 +30,29 @@ app.get('/game', account.auth, function(req, res) {
 // Gets a game with the passed in gid.
 app.get('/game/:gid', account.auth, function(req, res) {
   var gid = req.params.gid;
+  Game.findOne({ gid: gid }, function(err, game) {
+    if (err) {
+      console.error(err);
+      return err;
+    }
+
+    res.json(200, game);
+  });
+});
+
+// Updates a game with the passed in gid.
+app.put('/game/:gid', account.auth, function(req, res) {
+  var gid = req.params.gid,
+      username = req.body.user;
+console.log(req.body)
+  Game.findOne({ gid: gid }, function(err, game) {
+    if (err) {
+      console.error(err);
+      return err;
+    }
+
+    res.json(200, game);
+  });
 });
 
 // Creates a new game document with the provided user. 

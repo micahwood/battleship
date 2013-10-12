@@ -18,7 +18,7 @@ var user = new Schema({
 var Game = new Schema({
   gid: String,
   users: [user],
-  status: { type: String, default: 'open' }
+  locked: { type: Boolean, default: false }
 
 });
 
