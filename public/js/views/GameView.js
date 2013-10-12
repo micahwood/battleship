@@ -50,10 +50,21 @@ define([
     },
 
     initialize: function () {
+      var self = this;
+      console.log('init game view');
+      console.log(this.model);
+      var user = Battleship.currentUser.get('username');
+
+      if (!this.model.get('locked')) {
+        this.model.addUser(user).then(function() {
+          console.log(self.model);
+        });
+      }
+
       this.socket = io.connect('http://localhost:8081');
       this.socket.emit('joinGame', {
-        gid: this.model.attributes.gid,
-        username: this.model.attributes.username
+        gid: this.model.get('id'),
+        username: user
       });
     },
 

@@ -4,9 +4,17 @@ define([
   'models/Session',
   'models/Game',
   'views/HeaderView',
+  'views/GameView',
   'text!templates/application.handlebars',
   'text!templates/header.handlebars'
-], function(Backbone, Handlebars, Session, Game, HeaderView, appTemplate, headerTemplate) {
+], function(Backbone,
+            Handlebars,
+            Session,
+            Game,
+            HeaderView,
+            GameView,
+            appTemplate,
+            headerTemplate) {
 
   // Main view, basically deals with whether the user is authentication. 
   var ApplicationView = Backbone.View.extend({
@@ -60,13 +68,12 @@ define([
       // First, check whether there are any games open. 
       $.ajax({
         url: '/game',
-        data: { status: 'open' },
+        data: { locked: false },
         success: function(json) {
-          console.log('found a game')
+          console.log('found a game');
           // We found an open game, let's join it!
           if (json.hasOwnProperty('gid')) {
-            Backbone.history.navigate('game/' + json.gid, {trigger: true});
-            // self.addUserToGame(json.gid, $('.username').text());
+            Backbone.history.navigate('#game/' + json.gid, {trigger: true});
           }
         },
         error: function(jqxhr, text, status) {
@@ -80,19 +87,14 @@ define([
             case 'Not Found':
               // console.log(self.model.attributes.username)
 
-              var game = new Game({ username: self.model.attributes.username });
-              var res = game.save();
-
-              if (!res) {
-                // error!
-                $('.actions').html('There was an issue joining a game');
-              } else if (typeof res.responseText === 'object') {
-                var data = JSON.parse(res.responseText);
-                game.set('id', data.gid);
+              var game = new Game({ username: self.model.get('username') });
+              game.save().then(function(data) {
+                game.id = data.gid;
+                
                 var view = new GameView(game);
                 view.render();
                 window.location.replace('/#game/' + data.gid);
-              }
+              });
               break;
             default:
               // Other errors
