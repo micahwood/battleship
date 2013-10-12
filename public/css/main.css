@@ -76,6 +76,10 @@ header {
 	margin: 0 20px 20px 0;
 }
 
+#their-board {
+	display: none;
+}
+
 .error {
 	color: #ea184e;
 	font-weight: lighter;
