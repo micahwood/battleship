@@ -12,7 +12,6 @@ var express  = require('express'),
 app = express();
 var server = http.createServer(app);
 
-
 /*
  * Setup Express
  */
