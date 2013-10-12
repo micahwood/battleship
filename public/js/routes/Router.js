@@ -1,33 +1,43 @@
 define([
-  'jquery',
-  'underscore',
   'backbone',
   'models/User',
   'models/Session',
+  'models/Game',
   'views/ApplicationView',
-  'views/RegisterView', 
+  'views/RegisterView',
   'views/LoginView',
-  'views/AccountView'
-], function ($, _, Backbone, User, Session, ApplicationView, RegisterView, LoginView, AccountView) {
-  
+  'views/AccountView',
+  'views/GameView'
+], function (Backbone,
+             User,
+             Session,
+             Game,
+             ApplicationView,
+             RegisterView,
+             LoginView,
+             AccountView,
+             GameView) {
+
   var Router = Backbone.Router.extend({
-    
+
     routes: {
-      '': 'home',
-      'register' : 'register',
-      'login' : 'login',
-      'account/:id': 'showAccount'
+      ''            : 'home',
+      'register'    : 'register',
+      'login'       : 'login',
+      'account/:id' : 'showAccount',
+      'game/:gid'   : 'showGame'
     },
 
     home: function() {
-      // console.log('in home route');
-      
+      // console.log('home route')
+      // console.log(this.view)
       if(!this.view) {
         this.view = new ApplicationView({ model: new User() });
         this.view.render();
       } else {
-        // view has already been established.
-      }     
+        this.view.undelegateEvents();
+      }
+      // console.log(this.view)
     },
 
     register: function () {
@@ -38,6 +48,17 @@ define([
     login: function () {
       var view = new LoginView();
       view.render();
+    },
+
+    showGame: function(gid) {
+      // this.undelegateEvents();
+      // @TODO this should prob get from the db??
+      var game = new Game({ id: gid });
+      game.fetch();
+      var view = new GameView({ model: game });
+      view.render();
+
+      // init socket. 
     }
   });
 
@@ -56,7 +77,7 @@ define([
       console.log('is AUTHED');
       // Battleship.currentUser = new User(session.toJSON()); 
     } else {
-      console.log('is not authed');
+      console.log('is NOT authed');
       var view = new ApplicationView({model: new User() }).render();
     }
     
