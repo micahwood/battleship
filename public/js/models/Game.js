@@ -6,9 +6,7 @@ define([
 
   var Game = Backbone.Model.extend({
     urlRoot: '/game',
-    gid: null,
-    users: [],
-    locked: false,
+
 
 
     initialize: function() {
@@ -16,19 +14,36 @@ define([
       // this.gid = gid;
       // this.users.push(username);
       //// Check if we're still waiting?
-      console.log('create new game with:')
+      // console.log('create new game with:')
       // console.log(username);
-      console.log(this.users);
-      
+      // console.log(this.users);
+    },
+
+    defaults: {
+      gid: null,
+      users: [],
+      locked: false
     },
 
 
-    // Create a new Game  
+    // Adds a newuser to the game.  
     addUser: function(username) {
-      // this.users.push(username);
+      console.log('adding ' + username);
+      var users = this.get('users');
 
-      if (this.users.length === 2) {
-        this.locked = true;
+      if (!_.contains(users, username)) {
+        users.push({
+          user: username,
+          shipPositions: []
+        });
+
+        this.set('users', this.users);
+
+        if (users.length === 2) {
+          this.set('locked', true);
+        }
+
+        return this.save();
       }
     }
   });

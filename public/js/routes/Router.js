@@ -51,14 +51,11 @@ define([
     },
 
     showGame: function(gid) {
-      // this.undelegateEvents();
-      // @TODO this should prob get from the db??
       var game = new Game({ id: gid });
-      game.fetch();
-      var view = new GameView({ model: game });
-      view.render();
-
-      // init socket. 
+      game.fetch().then(function() {
+        var view = new GameView({ model: game });
+        view.render();
+      });
     }
   });
 
