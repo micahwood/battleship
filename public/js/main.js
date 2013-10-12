@@ -3,10 +3,14 @@ require.config({
   baseUrl: 'js',
   paths: {
     'jquery': 'libs/jquery-1.9.1.min',
+    'jquery-ui': 'libs/jquery-ui-1.10.2.custom',
+    'jquery-ui-collision': 'libs/jquery-collision.min',
+    'jquery-draggable-collision': 'libs/jquery-ui-draggable-collision',
     'jquery.cookie': 'libs/jquery.cookie',
     'underscore': 'libs/underscore',
     'backbone': 'libs/backbone',
     'handlebars': 'libs/handlebars',
+    'socketio': '../socket.io/socket.io.js',
     'router': 'routes/Router',
 
     // Require.js plugins here:
@@ -23,6 +27,22 @@ require.config({
     },
     'underscore': {
       exports: '_'
+    },
+    'jquery': {
+      exports: '$'
+    },
+    'jquery-ui': {
+      deps: ['jquery'],
+      exports: 'ui'
+    },
+    'jquery-ui-collision': {
+      deps: ['jquery-ui']
+    },
+    'jquery-draggable-collision': {
+      deps: ['jquery-ui-collision']
+    },
+    'socketio': {
+      exports: 'io'
     },
     'handlebars': {
       exports: 'Handlebars'
