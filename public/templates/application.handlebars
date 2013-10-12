@@ -1,13 +1,12 @@
 <div id='content'>
   {{#if loggedIn}}
     Welcome, {{username}}!
-
     <div class='actions'>
-    {{#if game}}
+    {{#if games}}
       <h4>Active Games:</h4>
       <ul class='games'>
-        {{#each game}}
-          <li><a href='/game/{{gid}}'>{{gid}}a</a></li>
+        {{#each games}}
+          <li><a href='/#game/{{gid}}'>{{gid}}</a></li>
         {{/each}}
       </ul>
     {{else}}

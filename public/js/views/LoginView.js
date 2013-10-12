@@ -1,6 +1,4 @@
 define([
-  'jquery',
-  'underscore',
   'backbone',
   'handlebars',
   'models/User',
@@ -8,7 +6,7 @@ define([
   'views/ApplicationView',
   'views/AccountView',
   'text!templates/login.handlebars'
-], function($, _, Backbone, Handlebars, User, Session, ApplicationView, AccountView, loginTemplate) {
+], function(Backbone, Handlebars, User, Session, ApplicationView, AccountView, loginTemplate) {
 
   var LoginView = Backbone.View.extend({
     el:   '.container',
@@ -41,6 +39,7 @@ define([
 
         success: function(data) {
           console.log('successful login')
+          console.log(data)
           session.save({
             username: data.username,
             sid: data._id,

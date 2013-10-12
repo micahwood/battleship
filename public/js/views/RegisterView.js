@@ -1,13 +1,11 @@
 define([
-  'jquery',
-  'underscore',
   'backbone',
   'handlebars',
   'models/User',
   'models/Session',
   'views/ApplicationView',
   'text!templates/register.handlebars'
-], function($, _, Backbone, Handlebars, User, Session, ApplicationView, registerTemplate){
+], function(Backbone, Handlebars, User, Session, ApplicationView, registerTemplate){
 
   var RegisterView = Backbone.View.extend({
     el: '.container',
@@ -60,7 +58,7 @@ define([
 
           var view = new ApplicationView({ model: new User(data) });
           view.render();
-          // Backbone.history.navigate('/', {trigger: true});
+          window.location.replace('#');
         },
 
         error: function(xhr) {
