@@ -42,4 +42,33 @@ User.methods.comparePassword = function(newPassword, callback) {
   });
 };
 
+/*
+  
+ */
+User.statics.updateUsersGames = function(username, game, callback) {
+  var opponent = '';
+
+  game.users.forEach(function(user) {
+    if (user.username !== username) {
+      opponent = user.username;
+    }
+  });
+  // If there is an opponent, we need to make sure that this 
+  // user is listed as their opponent
+  if (opponent !== '') {
+    this.update({ username: opponent, 'games.gid': game.gid }, { $set: { 'games.$.opponent': username }}, function(err) {
+      if (err) console.error(err);
+    });
+  }
+
+  this.findOne({ username: username }, function(err, user) {
+    if (err) return callback(err);
+
+    user.games.push({ gid: game.gid, opponent: opponent});
+    user.save(function(err) {
+      return callback(err ? err : null);
+    });
+  });
+};
+
 module.exports = mongoose.model('User', User);
