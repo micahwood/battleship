@@ -65,43 +65,36 @@ define([
 
       $('.actions').html(loader);
 
-      // First, check whether there are any games open. 
-      $.ajax({
-        url: '/game',
-        data: { locked: false },
-        success: function(json) {
-          console.log('found a game');
-          // We found an open game, let's join it!
-          if (json.hasOwnProperty('gid')) {
-            Backbone.history.navigate('#game/' + json.gid, {trigger: true});
-          }
-        },
-        error: function(jqxhr, text, status) {
-
-          switch (status) {
-            // Invalid request
-            case 'Bad Request':
-              //
-              break;
-            // No open game found, we need to create one. 
-            case 'Not Found':
-              // console.log(self.model.attributes.username)
-
-              var game = new Game({ username: self.model.get('username') });
-              game.save().then(function(data) {
-                game.id = data.gid;
-                
-                var view = new GameView(game);
-                view.render();
-                window.location.replace('/#game/' + data.gid);
-              });
-              break;
-            default:
-              // Other errors
-              break;
-          }
+      var promise = new Game().fetch({
+        data: {
+          locked: false
         }
+      });
 
+      promise.then(function(game) {
+        console.log('.then');
+        window.location.replace('/#game/' + game.gid);
+      })
+      .fail(function(jqxhr, text, status) {
+        console.log('faill');
+        // switch (status) {
+        //   // Invalid request
+        //   case 'Bad Request':
+        //     //
+        //     break;
+        //   // No open game found, we need to create one. 
+        //   case 'Not Found':
+        //     var game = new Game({ username: self.model.get('username') });
+        //     game.save().then(function(data) {
+        //       window.location.replace('/#game/' + data.gid);
+        //       // var view = new GameView({ model: game });
+        //       // view.render();
+        //     });
+        //     break;
+        //   default:
+        //     // Other errors
+        //     break;
+        // }
       });
 
       e.preventDefault();

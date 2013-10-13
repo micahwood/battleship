@@ -29,22 +29,28 @@ define([
     // Adds a newuser to the game.  
     addUser: function(username) {
       console.log('adding ' + username);
-      var users = this.get('users');
+//       var users = this.get('users');
+// console.log('keys');
+// console.log(_.keys(users));
+//       users.forEach(function(user) {
+//         console.log(user);
+//       })
+      // if (!_.contains(users, username)) {
+      //   console.log(users)
+      //   console.log(username)
+      //   users.push({
+      //     username: username,
+      //     shipPositions: []
+      //   });
 
-      if (!_.contains(users, username)) {
-        users.push({
-          user: username,
-          shipPositions: []
-        });
+      //   this.set('users', users);
 
-        this.set('users', this.users);
+      //   if (users.length === 2) {
+      //     this.set('locked', true);
+      //   }
 
-        if (users.length === 2) {
-          this.set('locked', true);
-        }
-
-        return this.save();
-      }
+      //   return this.save();
+      // }
     }
   });
 

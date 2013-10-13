@@ -7,6 +7,8 @@ var account = require('./account'),
 app.get('/game', account.auth, function(req, res) {
   var params = req.query,
       locked = !params.locked,
+      username = req.user.username,
+      opponent = '',
       gid, msg;
 
   if (!params.hasOwnProperty('locked')) {
@@ -14,15 +16,23 @@ app.get('/game', account.auth, function(req, res) {
   }
 
   if (locked !== false && locked !== true) {
-    res.json(400, { error: 'Invalid locked property. Please pass in \'true\' or \'false\'' });
+    res.json(400, { error: 'Invalid locked property. Please pass in true or false' });
   }
 
   Game.findOne({ locked: locked }, function(err, game) {
-    console.log('found: '+ game)
     if (!_.isEmpty(game)) {
-      res.json(200, game);
+      // Found a game, add user to it. 
+      game.addUser(username, function(err, game) {
+        if (err) console.error(err); // Write a generic error handler!
+        res.json(200, game);
+      })
     } else {
-      res.json(404, { error: 'No game found with a locked of: ' + locked });
+      // No game found. Create a new game. 
+      newGame = new Game({ gid: createId() });
+      newGame.addUser(username, function(err, game) {
+        if (err) console.error(err); // Write a generic error handler!
+        res.json(201, game);
+      });
     }
   });
 });
@@ -42,16 +52,25 @@ app.get('/game/:gid', account.auth, function(req, res) {
 
 // Updates a game with the passed in gid.
 app.put('/game/:gid', account.auth, function(req, res) {
-  var gid = req.params.gid,
-      username = req.body.user;
-console.log(req.body)
+  var gid = req.body.gid,
+      users = req.body.users,
+      locked = req.body.locked;
+console.log('PUT'); 
+
   Game.findOne({ gid: gid }, function(err, game) {
     if (err) {
       console.error(err);
       return err;
     }
 
-    res.json(200, game);
+    game.users = users;
+    game.locked = locked;
+
+    game.save(function(err) {
+      if (err) return err; // FIX
+
+      res.json(200, game);
+    });
   });
 });
 
@@ -74,23 +93,7 @@ app.post('/game', account.auth, function(req, res) {
       return err; //??
     }
 
-    // @TODO convert this to using events
-    User.findOne({ username: username }, function(err, user) {
-      if (err) {
-        console.error(err);
-        return err; //??
-      }
-
-      user.games.push({ gid: gid, opponent: '' });
-      user.save(function(err) {
-        if (err) {
-          console.error(err);
-          return err; //??
-        }
-
-        res.json(201, {gid: gid});
-      });
-    });
+    res.json(201, {gid: gid});
   });
 });
 

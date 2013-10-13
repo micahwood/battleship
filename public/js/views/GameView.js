@@ -55,11 +55,11 @@ define([
       console.log(this.model);
       var user = Battleship.currentUser.get('username');
 
-      if (!this.model.get('locked')) {
-        this.model.addUser(user).then(function() {
-          console.log(self.model);
-        });
-      }
+      // if (!this.model.get('locked')) {
+      //   this.model.addUser(user).then(function() {
+      //     console.log(self.model);
+      //   });
+      // }
 
       this.socket = io.connect('http://localhost:8081');
       this.socket.emit('joinGame', {
