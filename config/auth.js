@@ -19,12 +19,15 @@ passport.use(new LocalStrategy(
 ));
 
 
-// THIS COULD BE CHANGED TO A DIFFERENT SESSION DATA STORE, LIKE MONGO. 
 passport.serializeUser(function(user, done) {
+  console.log('serializing: ');
+  console.log(user);
   done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
+  console.log('DE - serializing: ');
+  console.log(id);
   User.findById(id, function (err, user) {
     done(err, user);
   });

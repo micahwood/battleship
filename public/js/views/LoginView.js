@@ -15,7 +15,6 @@ define([
     initialize: function () {},
 
     render: function () {
-      // Compile the template using Handlebars
       var template = Handlebars.compile(loginTemplate);
       this.$el.html(template);
     },
@@ -25,10 +24,9 @@ define([
     },
 
     submit: function(e) {
-      var form = $(this.form),
-          session = Battleship.session;
+      var form = $(this.form);
 
-      session.destroy();
+      Battleship.session.destroy();
       $('.error').text();
 
       $.ajax({
@@ -39,17 +37,16 @@ define([
 
         success: function(data) {
           console.log('successful login')
-          console.log(data)
-          session.save({
+          Battleship.session.save({
             username: data.username,
             sid: data._id,
             email: data.email
           });
 
-          var view = new ApplicationView({ model: new User(data) });
-          // view.trigger('change:loggedIn');
-          view.render();
-          window.location.replace('#');
+          // var view = new ApplicationView({ model: new User(data) });
+          // // view.trigger('change:loggedIn');
+          // view.render();
+          window.location.replace('/');
         },
 
         error: function(xhr) {

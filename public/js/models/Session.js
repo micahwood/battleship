@@ -13,7 +13,6 @@ define([
     },
 
     initialize: function() {
-      console.log('init session');
       return this.load();
     },
 

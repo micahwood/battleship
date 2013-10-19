@@ -5,8 +5,8 @@ define([
 ], function($, _, Backbone){
 
   var User = Backbone.Model.extend({
-
-    idAttribute: '_id', // Match this up with our sid. 
+    urlRoot: '/user',
+    // idAttribute: '_id', // Match this up with our sid. 
 
     defaults: {
       username: '',

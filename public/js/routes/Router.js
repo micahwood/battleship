@@ -31,13 +31,12 @@ define([
     home: function() {
       // console.log('home route')
       // console.log(this.view)
-      if(!this.view) {
+      if (!this.view) {
         this.view = new ApplicationView({ model: new User() });
         this.view.render();
       } else {
         this.view.undelegateEvents();
       }
-      // console.log(this.view)
     },
 
     register: function () {
@@ -60,25 +59,24 @@ define([
   });
 
   var init = function() {
-    // Expose some variables through the Battleship global. 
-    var Battleship = window.Battleship = window.Battleship || {},
-        router = new Router(),
+    window.Battleship = {};
+
+    var router = new Router(),
         session = Battleship.session = new Session();
 
-
-// console.log('init app....session:')
-// console.dir(Battleship.session);
     if (session.isAuthenticated()) {
-      // redirect to user page? IDK
-      // @TODO allow user to login after refresh. 
       console.log('is AUTHED');
-      // Battleship.currentUser = new User(session.toJSON()); 
+      var promise = new User().fetch();
+      promise.then(function(user) {
+        Battleship.currentUser = new User(user);
+        Battleship.currentUser.set('loggedIn', true);
+        Backbone.history.start();
+      });
     } else {
       console.log('is NOT authed');
-      var view = new ApplicationView({model: new User() }).render();
+      Battleship.currentUser = new User();
+      Backbone.history.start();
     }
-    
-    Backbone.history.start();
   };
 
   return {

@@ -8,13 +8,17 @@ define([
 ], function($, _, Backbone, Handlebars, User, headerTemplate){
 
   var HeaderView = Backbone.View.extend({
-    loggedIn: false,
+    el: 'header',
+
+    defaults: {
+      loggedIn: false
+    },
+
+    initialize: function() {
+      this.loggedIn = this.model.get('loggedIn');
+    },
 
     render: function() {
-      if (this.model) {
-        this.loggedIn = this.model.isLoggedIn();
-      }
-
       var template = Handlebars.compile(headerTemplate);
       var html = template({ loggedIn: this.loggedIn });
       this.$el.html(html);

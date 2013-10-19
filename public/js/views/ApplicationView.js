@@ -21,23 +21,25 @@ define([
     el: '.container',
     game: null,
 
+    defaults: {
+      loggedIn: false
+    },
+
     initialize: function () {
-      if (this.model) {
-        window.Battleship.currentUser = this.model;
-        this.loggedIn = this.model ? this.model.isLoggedIn() : false;
-        this.model.on('change', this.render, this);
-      }
+      console.log('init app view');
+      this.model = Battleship.currentUser;
+      this.loggedIn = this.model.loggedIn;
+      this.model.on('change', this.render, this);
     },
 
     render: function () {
       var context = {},
           template, html;
 
-      if (this.model) {
-        $.extend(context, this.model.attributes, {loggedIn: this.model.isLoggedIn() });
-        this.header = new HeaderView({ model: this.model, el: 'header' });
-        this.header.render();
-      }
+
+      $.extend(context, this.model.attributes);
+      this.header = new HeaderView({ model: this.model });
+      this.header.render();
 
       template = Handlebars.compile(appTemplate);
       html = template(context);
@@ -59,42 +61,19 @@ define([
     },
 
     joinGame: function(e) {
-      console.log('join game');
       var self = this,
           loader = $('<img>').attr('src', '../images/loader.gif');
 
       $('.actions').html(loader);
 
-      var promise = new Game().fetch({
-        data: {
-          locked: false
-        }
-      });
+      // Search for a game that is not locked. Will create a new game if
+      // an available game is not found.
+      var promise = new Game().fetch({ data: { locked: false } });
 
       promise.then(function(game) {
-        console.log('.then');
         window.location.replace('/#game/' + game.gid);
-      })
-      .fail(function(jqxhr, text, status) {
+      }).fail(function(jqxhr, text, status) {
         console.log('faill');
-        // switch (status) {
-        //   // Invalid request
-        //   case 'Bad Request':
-        //     //
-        //     break;
-        //   // No open game found, we need to create one. 
-        //   case 'Not Found':
-        //     var game = new Game({ username: self.model.get('username') });
-        //     game.save().then(function(data) {
-        //       window.location.replace('/#game/' + data.gid);
-        //       // var view = new GameView({ model: game });
-        //       // view.render();
-        //     });
-        //     break;
-        //   default:
-        //     // Other errors
-        //     break;
-        // }
       });
 
       e.preventDefault();
