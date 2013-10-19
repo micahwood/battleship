@@ -1,30 +1,27 @@
-require('./db');
 require('./auth');
 
 var config = {
-  local: {
-    mode: 'local',
+  development: {
+    mode: 'development',
     host: 'localhost',
-    port: 8081
-  },
-  tiltjuice: {
-    mode: 'tilejuice',
-    host: 'http://tiltjuice.com',
-    port: 8081
-  },
-  production: {
-    mode: 'production',
-    port: 8081
+    port: 8081,
+    db: {
+      client: 'mongo',
+      connection: 'mongodb://localhost/battleship'
+    }
   },
 
-  mongo: {
-    host: 'mongodb://localhost/battleship',
-    port: 27017
+  production: {
+    mode: 'production',
+    host: '',
+    port: 8081,
+    db: {
+      client: 'mongo',
+      connection: 'mongodb://localhost/battleship'
+    }
   }
 };
 
-module.exports = function(mode) {
-  return config[mode || process.argv[2] || 'local'] || config.local;
-
-  // Could return different mongo configurations here too?
-};
+module.exports = (function(mode) {
+  return config[mode || process.argv[2] || 'development'] || config.development;
+})();
