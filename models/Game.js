@@ -26,7 +26,6 @@ Game.methods.addUser = function(username, callback) {
   var self = this,
       opponent = '';
 
-  console.log('adding ' + username + ' to gid: ' + this.gid);
   this.users.push({ username: username });
   this.save(function(err) {
     if (err) return callback(err);

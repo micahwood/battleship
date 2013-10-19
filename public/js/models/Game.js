@@ -9,15 +9,7 @@ define([
 
 
 
-    initialize: function() {
-      //constructor kinda
-      // this.gid = gid;
-      // this.users.push(username);
-      //// Check if we're still waiting?
-      // console.log('create new game with:')
-      // console.log(username);
-      // console.log(this.users);
-    },
+    initialize: function() {},
 
     defaults: {
       gid: null,
