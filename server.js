@@ -1,24 +1,32 @@
 var express  = require('express'),
+    app = express(),
     exphbs   = require('express3-handlebars'),
-    http     = require('http'),
+    server     = require('http').createServer(app),
     connect  = require('connect'),
+    config = require('./config');
+    sessionStore = require('session-mongoose')(express),
     socketio = require('./sockets'),
     fs       = require('fs'),
     mongoose = require('mongoose'),
     passport = require('passport'),
     port     = (process.env.PORT || 8081);
 
-// Global - but shouldn't be 
-app = express();
-var server = http.createServer(app);
+mongoose.connect(config.db.connection);
 
+require('./routes')(app);
 /*
  * Setup Express
  */
 app.configure(function() {
   app.use(connect.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'MY$UPERSECRETKEY'}));
+  app.use(express.session({
+    secret: 'MY$UPERSECRETKEY',
+    store: new sessionStore({
+      url: config.db.connection,
+      interval: 120000
+    })
+  }));
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -26,8 +34,6 @@ app.configure(function() {
   app.use(app.router);
 });
 
-require('./config');
-require('./routes');
 
 // Errors - need to test these and also add a case for 404
 app.use(function(err, req, res, next) {
