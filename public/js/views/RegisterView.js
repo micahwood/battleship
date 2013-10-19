@@ -14,9 +14,10 @@ define([
     initialize: function () {},
 
     render: function () {
-      // Compile the template using Handlebars
       var template = Handlebars.compile(registerTemplate);
       this.$el.html(template);
+
+      return this; 
     },
 
     events: {

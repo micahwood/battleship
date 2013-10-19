@@ -113,6 +113,8 @@ define([
       $(".dock").each(function(){
         $(this).droppable(); // need to set these options?
       });
+    
+      return this; 
     },
 
     events: {

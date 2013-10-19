@@ -36,7 +36,6 @@ define([
       var context = {},
           template, html;
 
-
       $.extend(context, this.model.attributes);
       this.header = new HeaderView({ model: this.model });
       this.header.render();
@@ -44,6 +43,8 @@ define([
       template = Handlebars.compile(appTemplate);
       html = template(context);
       this.$el.html(html);
+
+      return this;
     },
 
     events: {

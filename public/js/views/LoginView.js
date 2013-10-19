@@ -17,6 +17,8 @@ define([
     render: function () {
       var template = Handlebars.compile(loginTemplate);
       this.$el.html(template);
+
+      return this;
     },
 
     events: {
@@ -36,16 +38,11 @@ define([
         dataType: 'json',
 
         success: function(data) {
-          console.log('successful login')
           Battleship.session.save({
             username: data.username,
             sid: data._id,
             email: data.email
           });
-
-          // var view = new ApplicationView({ model: new User(data) });
-          // // view.trigger('change:loggedIn');
-          // view.render();
           window.location.replace('/');
         },
 
