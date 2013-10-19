@@ -4,7 +4,6 @@ var express  = require('express'),
     server     = require('http').createServer(app),
     connect  = require('connect'),
     config = require('./config');
-    sessionStore = require('session-mongoose')(express),
     socketio = require('./sockets'),
     fs       = require('fs'),
     mongoose = require('mongoose'),
@@ -20,13 +19,7 @@ require('./routes')(app);
 app.configure(function() {
   app.use(connect.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({
-    secret: 'MY$UPERSECRETKEY',
-    store: new sessionStore({
-      url: config.db.connection,
-      interval: 120000
-    })
-  }));
+  app.use(express.session({ secret: 'MY$UPERSECRETKEY' }));
   app.use(passport.initialize());
   app.use(passport.session());
 
