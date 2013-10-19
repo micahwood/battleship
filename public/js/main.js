@@ -10,7 +10,7 @@ require.config({
     'underscore': 'libs/underscore',
     'backbone': 'libs/backbone',
     'handlebars': 'libs/handlebars',
-    'socketio': '../socket.io/socket.io.js',
+    'socketio': '../socket.io/socket.io',
     'router': 'routes/Router',
 
     // Require.js plugins here:
