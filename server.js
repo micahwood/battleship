@@ -1,40 +1,42 @@
-var express  = require('express'),
-    app = express(),
-    exphbs   = require('express3-handlebars'),
-    server     = require('http').createServer(app),
-    connect  = require('connect'),
-    config = require('./config');
-    socketio = require('./sockets'),
-    fs       = require('fs'),
-    mongoose = require('mongoose'),
-    passport = require('passport'),
-    port     = (process.env.PORT || 8081);
+var express = require('express')
+var app = express()
+var config = require('./config')
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
+var socketio = require('./sockets')
+var fs = require('fs')
+var mongoose = require('mongoose')
+var passport = require('passport')
+var port = (process.env.PORT || 8081)
+var server = app.listen(port)
 
-mongoose.connect(config.db.connection);
+mongoose.connect(config.db.connection)
 
-require('./routes')(app);
+// Dynamically setup routes.
+fs.readdir('./routes', function(err, files) {
+    files.forEach(function(file) {
+        app.use('/', require('./routes/' + file))
+    })
+})
+
 /*
  * Setup Express
  */
-app.configure(function() {
-  app.use(connect.bodyParser());
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: 'MY$UPERSECRETKEY' }));
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  app.use(connect.static(__dirname + '/public'));
-  app.use(app.router);
-});
-
+app.use(bodyParser.json())
+app.use(cookieParser())
+app.use(session({ secret: 'MY$UPERSECRETKEY', resave: false, saveUninitialized: true }))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(express.static(__dirname + '/public'))
 
 // Errors - need to test these and also add a case for 404
 app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  res.send(500, 'Something broke!');
+    console.error(err.stack)
+    res.send(500, 'Something broke!')
 });
 
-socketio.listen(server);
-server.listen(port);
+socketio.listen(server)
+server.listen(port)
 
-console.log('Listening on port ' + port );
+console.log('Listening on port ' + port )

@@ -1,13 +1,15 @@
 var User = require('../models/User');
+var express = require('express')
+var router = express.Router()
 
-module.exports = function(app) {
-  app.get('/user', function(req, res) {
+router.get('/user', function(req, res) {
     var username = req.cookies.username || req.query.username;
-    
-    User.findOne({ username: username }, function(err, user) {
-      if (err) console.error(err); 
 
-      res.json(200, user);
+    User.findOne({ username: username }, function(err, user) {
+        if (err) console.error(err);
+
+        res.json(200, user);
     });
-  });
-};
+});
+
+module.exports = router
