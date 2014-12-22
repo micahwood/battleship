@@ -28,7 +28,7 @@ app.use(cookieParser())
 app.use(session({ secret: 'MY$UPERSECRETKEY', resave: false, saveUninitialized: true }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/client'))
 
 // Errors - need to test these and also add a case for 404
 app.use(function(err, req, res, next) {
