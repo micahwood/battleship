@@ -16,7 +16,7 @@ define([
             appTemplate,
             headerTemplate) {
 
-  // Main view, basically deals with whether the user is authentication. 
+  // Main view, basically deals with whether the user is authentication.
   var ApplicationView = Backbone.View.extend({
     el: '.container',
     game: null,
@@ -67,8 +67,7 @@ define([
 
       $('.actions').html(loader);
 
-      // Search for a game that is not locked. Will create a new game if
-      // an available game is not found.
+      // Search for a game that is not locked. Will create a new game if an available game is not found.
       var promise = new Game().fetch({ data: { locked: false } });
 
       promise.then(function(game) {
