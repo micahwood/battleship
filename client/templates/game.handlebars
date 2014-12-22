@@ -1,0 +1,339 @@
+{{!-- This should hold the 'game' view --}}
+
+<div id="my-board" class='board-container'>
+  <h2>My Board</h2>
+  <div class="board">
+    <div class="row">
+      <div class="cell"></div>
+      <div class="cell"><div class="inner">1</div></div>
+      <div class="cell"><div class="inner">2</div></div>
+      <div class="cell"><div class="inner">3</div></div>
+      <div class="cell"><div class="inner">4</div></div>
+      <div class="cell"><div class="inner">5</div></div>
+      <div class="cell"><div class="inner">6</div></div>
+      <div class="cell"><div class="inner">7</div></div>
+      <div class="cell"><div class="inner">8</div></div>
+      <div class="cell"><div class="inner">9</div></div>
+      <div class="cell"> <div class="inner">10</div></div>
+    </div>
+    <div id="A" class="row"> 
+      <div class="cell"><div class="inner">A</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="B" class="row">
+      <div class="cell"> <div class="inner">B</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="C" class="row">
+      <div class="cell"><div class="inner">C</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="D" class="row">
+      <div class="cell"><div class="inner">D</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="E" class="row">
+      <div class="cell"><div class="inner">E</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="F" class="row">
+      <div class="cell"><div class="inner">F</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="G" class="row">
+      <div class="cell"><div class="inner">G</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="H" class="row">
+      <div class="cell"><div class="inner">H</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="I" class="row">
+      <div class="cell"><div class="inner">I</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="J" class="row">
+      <div class="cell"><div class="inner">J</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+
+<div id="their-board" class='board-container'>
+  <h2>{{opponent}}'s Board</h2>
+  <div class="waiting board">
+    <div class="row">
+      <div class="cell"></div>
+      <div class="cell"><div class="inner">1</div></div>
+      <div class="cell"><div class="inner">2</div></div>
+      <div class="cell"><div class="inner">3</div></div>
+      <div class="cell"><div class="inner">4</div></div>
+      <div class="cell"><div class="inner">5</div></div>
+      <div class="cell"><div class="inner">6</div></div>
+      <div class="cell"><div class="inner">7</div></div>
+      <div class="cell"><div class="inner">8</div></div>
+      <div class="cell"><div class="inner">9</div></div>
+      <div class="cell"> <div class="inner">10</div></div>
+    </div>
+    <div id="A" class="row"> 
+      <div class="cell"><div class="inner">A</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="B" class="row">
+      <div class="cell"> <div class="inner">B</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="C" class="row">
+      <div class="cell"><div class="inner">C</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="D" class="row">
+      <div class="cell"><div class="inner">D</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="E" class="row">
+      <div class="cell"><div class="inner">E</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="F" class="row">
+      <div class="cell"><div class="inner">F</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="G" class="row">
+      <div class="cell"><div class="inner">G</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="H" class="row">
+      <div class="cell"><div class="inner">H</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="I" class="row">
+      <div class="cell"><div class="inner">I</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div id="J" class="row">
+      <div class="cell"><div class="inner">J</div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+
+<div id='my-pieces'>
+  <h2>My Pieces</h2>
+  <div id='error' class='error'>&nbsp;</div>
+  <div class='pieces'>
+    <div class='dock carrier'>
+      <span id='carrier' class='ship carrier docked'></span>
+    </div>
+    <div class='dock battleship'>
+      <span id='battleship' class='ship battleship docked'></span>
+    </div>
+    <div class='dock sub'>
+      <span id='sub' class='ship sub docked'></span>
+    </div>
+    <div class='dock destroyer'>
+      <span id='destroyer' class='ship destroyer docked'></span>
+    </div>
+    <div class='dock patrol'>
+      <span id='patrol' class='ship patrol docked'></span>
+    </div>
+    <div class='clear'></div>
+
+    <button id='lock-button'>Lock it in</button>
+    <button id='reset-button'>Reset</button>
+  </div>
+</div>
+
+
+
+
+
+{{!-- block append footer
+footer
+script(src='/js/game.js')
+script
+$(document).ready(function(){
+BATTLESHIP.game.init();
+}) --}}

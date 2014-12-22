@@ -1,0 +1,22 @@
+<div id='content'>
+  {{#if loggedIn}}
+    Welcome, {{username}}!
+    <div class='actions'>
+    {{#if games}}
+      <h4>Active Games:</h4>
+      <ul class='games'>
+        {{#each games}}
+          <li><a href='/#game/{{gid}}'>{{opponent}}</a></li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <a id='joinGame' class="button" href="#">Join a game</a>
+    {{/if}}
+  </div>
+
+  {{else}}
+    <p>
+      Asymmetrical whatever Pinterest, polaroid paleo tofu Schlitz VHS 8-bit Neutra street art.  Shoreditch sustainable trust fund readymade.  Ennui Intelligentsia cray swag, bitters food truck Tumblr flexitarian beard slow-carb art party authentic Brooklyn.  Photo booth small batch Godard four loko, banjo 90's cray YOLO typewriter direct trade  High Life aesthetic.  Readymade whatever try-hard master cleanse butcher Tonx, 90's before they sold out sustainable Echo Park pickled cornhole PBR&amp;B fashion axe.  Beard bespoke tote bag stumptown viral meggings, sustainable synth pop-up occupy Vice scenester.  Thundercats messenger bag tattooed gluten-free synth, small batch dreamcatcher Terry Richardson pop-up tofu mlkshk twee pour-over Austin.
+    </p>
+  {{/if}}
+</div>

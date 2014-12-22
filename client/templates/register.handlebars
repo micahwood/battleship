@@ -1,0 +1,33 @@
+<div id='content'>
+  <p>
+    Register and join a game! <span class='error'>{{error}}</span> 
+  </p>
+  <form id='registration-form' class='form-horizontal' action='register' method='post'>
+    <div class='control-group'>
+      <label class='control-label' for='username'>Username: </label>
+      <div class='controls'>
+        <input type='text' id='username' name='user[username]' value="bryce" placeholder='Username' />
+      </div>
+    </div>
+    <div class='control-group'>
+      <label class='control-label' for='email'>Email: </label>
+      <div class='controls'>
+        <input type='text' id='email' name='user[email]' value='bryceahill@gmail.com' placeholder='user@example.com' />
+      </div>
+    </div>
+    <div class='control-group'>
+      <label class='control-label' for='password'>Password: </label>
+      <div class='controls'>
+       <input type='password' id='password' name='user[password]' value='bbb' placeholder='Password' />
+      </div>
+    </div>
+    <div class='control-group'>
+      <label class='control-label' for='password'>Confirm Password: </label>
+      <div class='controls'>
+       <input type='password' id='confirm_password' name='user[confirm_password]' value='bbb' placeholder='Confirm Password' />
+      </div>
+    </div>
+    <div class='controls'>
+      <input type="submit" id="registration-button" value="Register" />
+    </div>
+  </form>
