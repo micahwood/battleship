@@ -16,6 +16,7 @@
     "underscore": "~1.7.0"
   },
   "devDependencies": {
+    "jshint-stylish": "^1.0.0",
     "nodemon": "1.x"
   }
 }

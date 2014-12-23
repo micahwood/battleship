@@ -1,0 +1,25 @@
+{
+    "maxerr": 50,
+    "camelcase": true,
+    "curly": false,
+    "immed": true,
+    "indent": 4,
+    "newcap": true,
+    "quotmark": true,
+    "strict": false,
+    "trailing": true,
+    "maxlen": 120,
+    "asi": true,
+    "eqnull": true,
+    "lastsemic": true,
+    "laxbreak": true,
+    "browser": true,
+    "devel": true,
+    "jquery": true,
+    "node": true,
+    "globals": {
+        "define": true,
+        // This global should be removed eventually
+        "Battleship": true
+    }
+}
